@@ -17,11 +17,9 @@
     =render :partial => 'shared/head'
 
     .row
-      .large-2.columns#navigation
-        .hey hey
-
+      .large-2.medium-2.columns#navigation
         =render :partial => 'shared/sidebar'
-      .large-10.columns#content
+      .large-10.medium-10.columns#content
         = yield
 
     =render :partial => 'shared/footer'

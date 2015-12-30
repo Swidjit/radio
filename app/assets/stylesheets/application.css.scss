@@ -289,3 +289,11 @@
   display: inline;
 }
 
+
+
+.shuffle {
+  opacity: .5;
+}
+.shuffle.selected {
+  opacity: 1;
+}

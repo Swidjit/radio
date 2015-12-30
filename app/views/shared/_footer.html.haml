@@ -68,6 +68,8 @@
   var root_url;
   var filenames = {};
   var song_names = {};
+  var song_shows = {};
+  var shuffle_mode = false;
   var current_track;
   $('#login-button').on('click', function() {
     var data = {
@@ -118,8 +120,15 @@
   });
   document.addEventListener('ended', function(e){
     if($(e.target).is('audio')){
-      current_track += 1;
-      playSong();
+      if(shuffle_mode) {
+        $.get('/songs/shuffle');
+      }
+      else {
+        current_track += 1;
+        playSong();
+      }
+
+
     }
   }, true);
 
@@ -127,32 +136,41 @@
   function playSong(song) {
       filename = '';
       song_name = '';
-      console.log('hey');
       if(filenames[show_id]) {
         filename = filenames[show_id][current_track];
         song_name = song_names[show_id][current_track];
+        song_show = song_shows[show_id];
       }
       else {
-      console.log(song.attr('filename'));
+        console.log(song.attr('filename'));
         filename = song.attr('filename');
         song_name = song.attr('title');
+        song_show = song.attr('show');
       }
       src=root_url+filename;
-      console.log(filename, song_name);
       html='<audio id="current-song" src="'+src+'"></audio>';
       $('#player #song').html(html);
       $('#player .play').hide();
       $('#player .pause').show();
       $('#show-list').removeClass('large-12');
+      $('#show-list').removeClass('medium-12');
       $('#show-list').addClass('large-6');
+      $('#show-list').addClass('medium-5');
       $.get('/songs/load/'+filename);
 
       current_filename = filename;
       current_song = document.getElementById('current-song');
       current_song.play();
       $('#player .song-title').html(song_name);
+      $('#player .song-show').html(song_show);
   }
 
-  $('.hey').on('click',function() {
-    console.log(filenames);
+  $(document).on('click','.shuffle',function() {
+    shuffle_mode = !shuffle_mode;
+    $(this).toggleClass('selected');
+
+  });
+  $(document).on('click','.refresh',function() {
+    $.get('/songs/shuffle');
+
   });

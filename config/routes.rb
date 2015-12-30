@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :songs, :only => [] do
     collection do
       get 'load/:filename' => 'songs#show'
+      get 'shuffle'
     end
   end
 
