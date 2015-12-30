@@ -98,12 +98,12 @@
 
 
 
-  $(document).on('click', '.song-name', function() {
+  $(document).on('click', '.play-song', function() {
     $('#player').show();
     current_track = parseInt($(this).attr("track"))-1;
     show_id = $(this).attr("show_id");
     root_url = 'https://archive.org/download/'+show_id+'/';
-    playSong();
+    playSong($(this));
   });
 
   $(document).on('click', '.pause', function() {
@@ -124,20 +124,33 @@
   }, true);
 
 
-  function playSong() {
-      src = root_url+filenames[show_id][current_track];
-      console.log(src);
+  function playSong(song) {
+      filename = '';
+      song_name = '';
+      console.log('hey');
+      if(filenames[show_id]) {
+        filename = filenames[show_id][current_track];
+        song_name = song_names[show_id][current_track];
+      }
+      else {
+      console.log(song.attr('filename'));
+        filename = song.attr('filename');
+        song_name = song.attr('title');
+      }
+      src=root_url+filename;
+      console.log(filename, song_name);
       html='<audio id="current-song" src="'+src+'"></audio>';
       $('#player #song').html(html);
       $('#player .play').hide();
       $('#player .pause').show();
+      $('#show-list').removeClass('large-12');
+      $('#show-list').addClass('large-6');
+      $.get('/songs/load/'+filename);
 
-      current_filename = filenames[show_id][current_track];
-      console.log(current_filename);
+      current_filename = filename;
       current_song = document.getElementById('current-song');
-      console.log(current_song);
       current_song.play();
-      $('#player .song-title').html(song_names[show_id][current_track]);
+      $('#player .song-title').html(song_name);
   }
 
   $('.hey').on('click',function() {

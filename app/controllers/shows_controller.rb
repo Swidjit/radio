@@ -15,4 +15,9 @@ class ShowsController < ApplicationController
     end
   end
 
+  def load
+    @show = Show.find(params[:show_id])
+    render 'load_show'
+  end
+
 end

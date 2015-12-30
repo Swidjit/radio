@@ -1,0 +1,11 @@
+%h3=song.title
+=link_to show_load_path(song.show), :remote=>:true do
+  %h5=song.show.title
+#comments{:style=>'margin-top: 25px;'}
+  %h6 Comments
+  .comments
+    = render :partial => 'comments/comment', :collection => @comments, :as => :comment
+  -if user_signed_in?
+    = render :partial => 'comments/form', :locals => { :comment => @new_comment }
+#similar
+  =render :partial => 'songs/link', :collection => @similar, :as => :song

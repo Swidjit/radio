@@ -207,16 +207,20 @@
 }
 .song-name {
 
+  height:16px;
 }
 .song-track, .song-name {
   display: inline;
+
 }
 .song {
     color: #274472;
     cursor: pointer;
-    height: 16px;
+    height: 20px;
     font-size: .95em;
-}
+    white-space: nowrap;
+    overflow:hidden;
+  }
 .song:hover {
     font-weight: 500;
 }
@@ -257,3 +261,31 @@
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
 }
+.song-link {
+  padding: 3px 5px;
+  margin-bottom: 2px;
+
+}
+
+.song-link {
+  cursor:pointer;
+  .song-name {
+    color:#274472;
+  }
+}
+.song-link:hover {
+  background-color: #eed;
+  .song-name:after {
+    content: '>';
+    font-weight: 500;
+  }
+  .song-name {
+    font-weight: 600;
+  }
+
+}
+.song-show-title {
+  font-size: .9em;
+  display: inline;
+}
+

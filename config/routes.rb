@@ -18,6 +18,15 @@ Rails.application.routes.draw do
 
   end
 
+  resources :songs, :only => [] do
+    collection do
+      get 'load/:filename' => 'songs#show'
+    end
+  end
+
+  resources :shows, :only => [] do
+    get 'load'
+  end
 
 
   resources :posts, :only => [:create, :update, :destroy, :show,:index, :edit] do
