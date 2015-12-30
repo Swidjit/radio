@@ -63,6 +63,12 @@
   %a.close-reveal-modal ×
 
 :javascript
+  var current_song;
+  var current_filename;
+  var root_url;
+  var filenames = {};
+  var song_names = {};
+  var current_track;
   $('#login-button').on('click', function() {
     var data = {
       user: {login: $('#login-username').val(), password: $('#login-password').val(), remember_me: '1'}
@@ -89,77 +95,51 @@
        }
     });
   });
-  $('.post-option').on('click', function() {
-    showForm($(this));
-    $('#new-post').foundation('reveal', 'open');
-    $("#new-post").on("opened.fndtn.reveal", function(){
-      $('.first-input').focus();
-    });
-  });
-  $( document ).on('keyup','.autocomplete', function() {
-      if($(this).val().length > 2) {
-        $.get('#{autocomplete_tag_search_posts_path}',{q:$(this).val()}, function(data) {
-          $('.autocomplete-options').empty();
-          $('.autocomplete-options').show();
-          $.each(data, function(index,value) {
-            console.log(index,value);
-            $('.autocomplete-options').append('<div class="autocomplete-option">'+value.name+'</div>');
-          });
 
-        });
-      }
-      else {
-        $('.autocomplete-options').empty();
-        $('.autocomplete-options').hide();
-      }
+
+
+  $(document).on('click', '.song-name', function() {
+    $('#player').show();
+    current_track = parseInt($(this).attr("track"))-1;
+    show_id = $(this).attr("show_id");
+    root_url = 'https://archive.org/download/'+show_id+'/';
+    playSong();
   });
 
-  $( document ).on( 'click', '#submit-post', function () {
-      $('#post_tag_list').val('');
-      $.ajax({ url: '/posts',
-        type: 'POST',
-        headers: {
-            'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
-          },
-        data: $('#post-form').serializeArray()
-      });
+  $(document).on('click', '.pause', function() {
+    current_song.pause();
+    $('#player .play').show();
+    $('#player .pause').hide();
   });
-
-  $( document ).on( 'click', '.autocomplete-option', function () {
-    $('#tag-list').append('<div class="tag" value="' + $(this).text() + '">' + $(this).text() + '<div class="del">X</div></div>');
-    $('.autocomplete-options').empty();
-    $('.autocomplete-options').hide();
-    str = ''
-    $('#tag-list').find('.tag').each(function() {
-
-      str += $(this).attr("value") + ',';
-    });
-    str = str.substring(0,str.length-1);
-    $('#post_tag_list').val(str);
-    setTimeout(function(){
-        $('.autocomplete').val('');
-        $('.autocomplete').focus();
-
-    }, 100);
+  $(document).on('click', '.play', function() {
+    current_song.play();
+    $('#player .play').hide();
+    $('#player .pause').show();
   });
-  $( document ).on( 'click', '.del', function (event) {
-    $(event.target).parent().remove();
+  document.addEventListener('ended', function(e){
+    if($(e.target).is('audio')){
+      current_track += 1;
+      playSong();
+    }
+  }, true);
 
-    str = ''
-    $('#tag-list').find('.tag').each(function() {
-      console.log('in');
-      str += $(this).attr("value") + ',';
-    });
-    str = str.substring(0,str.length-1);
-    $('#post_tag_list').val(str);
-    $('.autocomplete').focus();
-  })
 
-  function showForm(f) {
-    switch(f.data("post-type")) {
-        case "prose":
-          $('#form').html("#{escape_javascript render :partial => 'posts/new'}");
-          break;
+  function playSong() {
+      src = root_url+filenames[show_id][current_track];
+      console.log(src);
+      html='<audio id="current-song" src="'+src+'"></audio>';
+      $('#player #song').html(html);
+      $('#player .play').hide();
+      $('#player .pause').show();
 
-      }
+      current_filename = filenames[show_id][current_track];
+      console.log(current_filename);
+      current_song = document.getElementById('current-song');
+      console.log(current_song);
+      current_song.play();
+      $('#player .song-title').html(song_names[show_id][current_track]);
   }
+
+  $('.hey').on('click',function() {
+    console.log(filenames);
+  });

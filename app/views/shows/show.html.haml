@@ -1,0 +1,16 @@
+=render @show
+:css
+  .pause {
+    display:none;
+  }
+
+:javascript
+  var current_song;
+  var current_filename;
+  var root_url = 'https://archive.org/download/#{@show.identifier}/';
+  var filenames = JSON.parse( "#{j @show.songs.pluck(:filename).to_json}" );
+  var song_names = JSON.parse( "#{j @show.songs.pluck(:title).to_json}" );
+  var current_track = 0;
+  $('#player .song-show').html('#{@show.title}');
+  playSong();
+

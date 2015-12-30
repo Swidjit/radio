@@ -1,0 +1,12 @@
+.show[show]
+  %h4=show.title
+  #show-songs
+    -show.songs.each do |song|
+      .song
+        .song-track [#{song.track_num}]
+        .song-name{:track=>song.track_num,:filename=>song.filename, :title=>song.title, :show_id=>song.show.identifier}
+          =song.title
+:javascript
+  filenames["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:filename).to_json}" );
+  song_names["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:title).to_json}" );
+

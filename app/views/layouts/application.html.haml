@@ -15,6 +15,16 @@
 
   %body
     =render :partial => 'shared/head'
-    = yield
+
+    .row
+      .large-2.columns#navigation
+        .hey hey
+
+        =render :partial => 'shared/sidebar'
+      .large-10.columns#content
+        = yield
+
     =render :partial => 'shared/footer'
+    =render :partial => 'shared/player'
+
 

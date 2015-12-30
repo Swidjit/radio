@@ -1,0 +1,4 @@
+-@shows.each do |show|
+  -puts show.title
+  :javascript
+    filenames["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:filename).to_json}" );

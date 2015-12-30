@@ -1,0 +1,11 @@
+#sidebar
+  %hr
+  .section
+
+    =link_to 'Your Favorites','#'
+    =link_to 'Most Popular','#'
+  %hr
+  .section
+    #years
+      -for i in 1966..1995
+        =link_to i.to_s, '/bands/1/shows/year/'+i.to_s, :remote => :true

@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151117235524) do
+ActiveRecord::Schema.define(version: 20151230135810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bands", force: :cascade do |t|
+    t.string  "name",        default: "false"
+    t.string  "description"
+    t.integer "show_count"
+    t.integer "song_count"
+    t.string  "slug"
+  end
 
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"
@@ -62,6 +70,25 @@ ActiveRecord::Schema.define(version: 20151117235524) do
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "shows", force: :cascade do |t|
+    t.integer  "band_id"
+    t.string   "title"
+    t.datetime "date"
+    t.string   "year"
+    t.string   "description"
+    t.string   "identifier"
+    t.string   "slug"
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.integer "show_id"
+    t.string  "track_num"
+    t.string  "title"
+    t.string  "length"
+    t.string  "filename"
+    t.string  "slug"
   end
 
   create_table "taggings", force: :cascade do |t|

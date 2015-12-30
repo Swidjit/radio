@@ -1,5 +1,9 @@
 namespace :init do
 
+  task :seed_bands => :environment do
+    Band.create(:name=>"Grateful Dead",:description=>"Description")
+  end
+
   task :import_shows => :environment do
     require 'net/http'
     require 'json'
@@ -12,16 +16,22 @@ namespace :init do
     file = File.new("dead.xml")
     doc = Document.new(file)
     count=0
+    band = Band.find(1)
+    Show.destroy_all
     doc.root.elements.each('result/doc') do |e|
       count += 1
-      if count < 4
+      if count < 25
         if e.elements['str[@name="subject"]'].present?
           if e.elements['str[@name="subject"]'].text == 'Live concert'
             index = e.elements['str[@name="title"]'].text.match(/(\d{4})-(\d{2})-(\d{2})/)
+            year = index.to_s.split('-')[0]
             index = index.to_s+'T04:05:06+07:00'
             puts DateTime.rfc3339(index)
             identifier = e.elements['str[@name="identifier"]'].text
-            desc = e.elements['str[@name="description"]'].text
+            e.elements['str[@name="description"]'].present? ? desc = e.elements['str[@name="description"]'].text : desc='No description'
+
+            #save the show
+            @show=Show.create(:band=> band, :date=>DateTime.rfc3339(index), :year => year,:title=>e.elements['str[@name="title"]'].text, :identifier => identifier, :description => desc)
 
             url = 'http://archive.org/metadata/'+identifier
             uri = URI(url)
@@ -44,10 +54,7 @@ namespace :init do
             end
             songs = songs.sort_by {|song| song['track'].to_i}
             songs.each do |s|
-              puts s['track']
-              puts s['name']
-              puts s['title']
-              puts s['length']
+              @show.songs << Song.create(:track_num => s['track'], :filename => s['name'], :title => s['title'], :length => s['length'])
             end
 
           end

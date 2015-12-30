@@ -186,3 +186,74 @@
   bottom: 0;
   width: 100%;
 }
+
+#player {
+  height: 60px;
+  background-color: #a82512;
+  position:fixed;
+  bottom: 0px;
+  z-index: 1000;
+  width:100%;
+  display:none;
+  i {
+    font-size: 55px;
+    line-height: 60px;
+  }
+  color: #eee;
+}
+.song-controls {
+  position:absolute;
+  display: inline-block;
+}
+.song-name {
+
+}
+.song-track, .song-name {
+  display: inline;
+}
+.song {
+    color: #274472;
+    cursor: pointer;
+    height: 16px;
+    font-size: .95em;
+}
+.song:hover {
+    font-weight: 500;
+}
+.song:hover:after {
+    content: '>';
+}
+.song-title {
+  position:absolute;
+  left:70px;
+  top: 5px;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+.song-show {
+  position:relative;
+  left: 70px;
+  top: 30px;
+  font-size: .85em;
+  opacity: .8;
+}
+
+.section a {
+  line-height: 30px;
+  font-size: 1.2em;
+  display: block;
+}
+#years {
+  a {
+    font-size: 1.3em;
+    font-weight: 600;
+  }
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}
+#show-songs{
+      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}

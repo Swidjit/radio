@@ -12,7 +12,7 @@ default: &default
 development:
   adapter: postgresql
   encoding: unicode
-  database: pwym
+  database: radio
   pool: 5
   username: swidjit
   password: password

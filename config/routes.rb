@@ -8,6 +8,18 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :bands, :only => [:show, :index, :update] do
+    resources :shows, :only => [:show, :index, :update] do
+      collection do
+        get 'year/:year' => 'shows#index'
+      end
+      resources :songs, :only => [:show, :index, :update]
+    end
+
+  end
+
+
+
   resources :posts, :only => [:create, :update, :destroy, :show,:index, :edit] do
     collection do
       get 'autocomplete_tag_search'
