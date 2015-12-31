@@ -1,0 +1,11 @@
+%h3 #{song_group.title} (#{song_group.count})
+
+#comments{:style=>'margin-top: 25px;'}
+  %h6 Comments
+  .comments
+    = render :partial => 'comments/comment', :collection => @comments, :as => :comment
+  -if user_signed_in?
+    = render :partial => 'comments/form', :locals => { :comment => @new_comment }
+
+
+=render :partial=>'songs/link',:collection => song_group.songs, :as => :song

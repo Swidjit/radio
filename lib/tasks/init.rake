@@ -18,9 +18,10 @@ namespace :init do
     count=0
     band = Band.find(1)
     Show.destroy_all
+    SongGroup.delete_all
     doc.root.elements.each('result/doc') do |e|
       count += 1
-      if count < 25
+      if count < 15
         if e.elements['str[@name="subject"]'].present?
           if e.elements['str[@name="subject"]'].text == 'Live concert'
             index = e.elements['str[@name="title"]'].text.match(/(\d{4})-(\d{2})-(\d{2})/)
@@ -54,7 +55,17 @@ namespace :init do
             end
             songs = songs.sort_by {|song| song['track'].to_i}
             songs.each do |s|
-              @show.songs << Song.create(:track_num => s['track'], :filename => s['name'], :title => s['title'], :length => s['length'])
+              @song = Song.create(:track_num => s['track'], :filename => s['name'], :title => s['title'], :length => s['length'])
+              @show.songs << @song
+              t = s['title'].gsub(/[^\w,'&\s]/,'')
+              group = SongGroup.where('lower(title) = ?',t.downcase).first
+              if group.present?
+                group.increment!(:count)
+                group.songs << @song
+              else
+                group=SongGroup.create(:title=>t,:count=>1)
+                group.songs << @song
+              end
             end
 
           end

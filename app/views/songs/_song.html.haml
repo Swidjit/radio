@@ -1,4 +1,7 @@
-%h3 #{song.title} [#{song.length}]
+%h3
+  =link_to song.title, '/songs/group/'+song.song_group.title, :remote=>:true
+
+  [#{song.length}]
 =link_to show_load_path(song.show), :remote=>:true do
   %h5=song.show.title
 #comments{:style=>'margin-top: 25px;'}
