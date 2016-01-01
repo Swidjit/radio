@@ -26,6 +26,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :song_groups, :only => [] do
+    get 'vote'
+  end
+
   resources :shows, :only => [] do
     get 'load'
   end

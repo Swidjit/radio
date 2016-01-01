@@ -1,9 +1,23 @@
-%h3
+%h4
   =link_to song.title, '/songs/group/'+song.song_group.title, :remote=>:true
 
   [#{song.length}]
-=link_to show_load_path(song.show), :remote=>:true do
-  %h5=song.show.title
+.show-link
+  =link_to show_load_path(song.show), :remote=>:true do
+    %h5=song.show.title
+-if user_signed_in?
+  .song-frequency-label
+    %label song frequency
+  -vote = current_user.song_votes.where(:song_group=>song.song_group).first
+  -if vote
+    .song-frequency.hidden
+      =render :partial => 'songs/frequency', :locals=>{song: song}
+    :javascript
+      $('.votes .vote:eq(#{vote.frequency})').css('opacity','1');
+  -else
+    .song-frequency
+      =render :partial => 'songs/frequency', :locals=>{song: song}
+
 #comments{:style=>'margin-top: 25px;'}
   %h6 Comments
   .comments

@@ -105,6 +105,7 @@
     current_track = parseInt($(this).attr("track"))-1;
     show_id = $(this).attr("show_id");
     root_url = 'https://archive.org/download/'+show_id+'/';
+    console.log(root_url,current_track);
     playSong($(this));
   });
 
@@ -137,6 +138,7 @@
       filename = '';
       song_name = '';
       if(filenames[show_id]) {
+      console.log('file');
         filename = filenames[show_id][current_track];
         song_name = song_names[show_id][current_track];
         song_show = song_shows[show_id];
@@ -174,3 +176,38 @@
     $.get('/songs/shuffle');
 
   });
+
+  $(document).on('mouseover','.vote',function() {
+    labels = ['never','infrequently','regularly','frequently'];
+    num = $(this).index();
+    $('.vote-lebel').html(labels[num]);
+
+    do {
+    $('.votes .vote:eq('+num+')').css('opacity','1');
+    num--;
+    } while(num>=0);
+
+  });
+  $(document).on('mouseout','.vote',function() {
+    if($('.votes').hasClass('votable')) {
+      $('.vote').css('opacity','.4');
+    }
+
+
+  });
+  $(document).on('click','.song-frequency-label',function() {
+    $('.song-frequency').toggle();
+  });
+
+  $(document).on('click','.show',function() {
+    $(this).find('.show-songs').toggle();
+    if($(this).find('.show-title').hasClass('expanded')) {
+      $(this).find('.show-title').removeClass('expanded');
+    }
+    else {
+      $(this).find('.show-title').addClass('expanded');
+    }
+
+  });
+
+

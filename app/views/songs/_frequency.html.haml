@@ -1,0 +1,9 @@
+%span
+  how frequently should we play this?
+.votes.votable
+  .vote=link_to '0', song_group_vote_path(song.song_group, :val=>0), :remote=>:true
+  .vote=link_to '1', song_group_vote_path(song.song_group, :val=>1), :remote=>:true
+  .vote=link_to '2', song_group_vote_path(song.song_group, :val=>2), :remote=>:true
+  .vote=link_to '3', song_group_vote_path(song.song_group, :val=>3), :remote=>:true
+
+.vote-label

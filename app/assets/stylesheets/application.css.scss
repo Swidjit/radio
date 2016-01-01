@@ -256,15 +256,30 @@
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
 }
-#show-songs{
-      -webkit-column-count: 2; /* Chrome, Safari, Opera */
-    -moz-column-count: 2; /* Firefox */
-    column-count: 2;
+.show-songs{
+  display:none;
 }
 .song-link {
   padding: 3px 5px;
   margin-bottom: 2px;
 
+}
+
+.show-title {
+  font-size: 1.2em;
+  color: #274472;
+  font-weight: 500;
+  cursor:pointer;
+}
+.show-title:hover {
+  text-decoration: underline;
+
+}
+.show-title.expanded:hover:after {
+    content: '\25B2';
+}
+.show-title:hover:after {
+    content: '\25BC';
 }
 
 .song-link {
@@ -296,4 +311,26 @@
 }
 .shuffle.selected {
   opacity: 1;
+}
+
+.song-frequency {
+  padding: 5px 12px;
+  background-color: #eed;
+}
+.votes {
+  a {
+    font-size: 25px;
+    width: 30px;
+    font-weight: 700;
+    text-align:center;
+
+  }
+}
+
+.hidden {
+  display:none;
+}
+.vote {
+  display: inline;
+  opacity: .4;
 }

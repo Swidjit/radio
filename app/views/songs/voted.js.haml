@@ -1,0 +1,9 @@
+num = parseInt('#{@vote.frequency}');
+$('.vote').css('opacity','.4');
+do {
+$('.votes .vote:eq('+num+')').css('opacity','1');
+num--;
+} while(num>=0);
+$('.votes').removeClass('votable');
+$('.song-frequency').toggle();
+

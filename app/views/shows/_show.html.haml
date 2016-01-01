@@ -1,7 +1,7 @@
 .show[show]
-  %h4=show.title
+  .show-title=show.title
 
-  #show-songs
+  .show-songs
     -show.songs.each do |song|
       .song
         .song-track [#{song.track_num}]
