@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160102121232) do
+ActiveRecord::Schema.define(version: 20160102170845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160102121232) do
     t.integer "show_count"
     t.integer "song_count"
     t.string  "slug"
+    t.string  "collection"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -110,6 +111,7 @@ ActiveRecord::Schema.define(version: 20160102121232) do
     t.integer "song_group_id"
     t.integer "track_num"
     t.integer "importance",    default: 0
+    t.integer "band_id"
   end
 
   create_table "taggings", force: :cascade do |t|

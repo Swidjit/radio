@@ -21,6 +21,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 
 gem 'cancancan', '~> 1.10'
+gem 'httparty'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
