@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       post 'upload_file'
+      get 'favorites'
     end
   end
 

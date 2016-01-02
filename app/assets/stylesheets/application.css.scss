@@ -439,3 +439,10 @@
       text-align: left; }
       .footer .contact > i {
         margin-right: 1rem; } }
+
+
+#band-list {
+      -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}

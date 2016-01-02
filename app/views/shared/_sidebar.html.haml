@@ -2,10 +2,13 @@
   %hr
   .section
 
-    =link_to 'Your Favorites','#'
-    =link_to 'Most Popular','#'
+    =link_to 'Your Favorites',favorites_user_path(current_user)
+    =link_to 'Most Popular','/pages/popular'
   %hr
   .section
     #years
-      -for i in 1966..1995
-        =link_to i.to_s, '/bands/1/shows/year/'+i.to_s, :remote => :true
+      -if @band
+        -years = @band.shows.order(year: :asc).pluck(:year)
+        -years = years.uniq
+        -for i in years
+          =link_to i.to_s, '/bands/'+@band.id.to_s+'/shows/year/'+i.to_s, :remote => :true

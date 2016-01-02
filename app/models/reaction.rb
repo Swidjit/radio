@@ -12,7 +12,25 @@ class Reaction < ActiveRecord::Base
   scope :offensive, lambda{ where("#{table_name}.reaction_type = ?","offensive")}
 
   after_create :notify
+  after_save :propagate_importance
 
   def notify
+  end
+
+  def propagate_importance
+    puts self.reaction_source
+    if self.reaction_source == 'song'
+      puts self.post_id
+      song = Song.find(self.post_id).song_group
+      puts song
+      case self.reaction_type
+        when 'like'
+        song.increment!(:importance, 1)
+        when 'love'
+        song.increment!(:importance, 3)
+        when 'share'
+        song.increment!(:importance, 5)
+      end
+    end
   end
 end

@@ -28,7 +28,7 @@ class ShowsController < ApplicationController
       Reaction.destroy(@reaction.id)
       cancelled = true
     else
-      @reaction = Reaction.create!(:post_id => params[:show_id], :user_id => current_user.id, :reaction_type => params[:type])
+      @reaction = Reaction.create!(:post_id => params[:show_id], :user_id => current_user.id, :reaction_type => params[:type], :reaction_source=>'show')
     end
     case params[:type]
       when 'like'

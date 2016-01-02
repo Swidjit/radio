@@ -36,7 +36,7 @@ class SongsController < ApplicationController
       Reaction.destroy(@reaction.id)
       cancelled = true
     else
-      @reaction = Reaction.create!(:post_id => params[:song_id], :user_id => current_user.id, :reaction_type => params[:type])
+      @reaction = Reaction.create!(:post_id => params[:song_id], :user_id => current_user.id, :reaction_type => params[:type], :reaction_source=>'song')
     end
     case params[:type]
       when 'like'

@@ -13,6 +13,12 @@ class UsersController < ApplicationController
 
   end
 
+  def favorites
+    @favorite_songs = Song.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id))
+    @favorite_shows = Show.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id))
+  end
+
+
   def update
     # authorize! :update, @user
     respond_to do |format|

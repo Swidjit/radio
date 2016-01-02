@@ -1,0 +1,8 @@
+%h4 Your favorites
+.row
+  .large-6.columns
+    %h5 Songs
+    =render :partial=> 'songs/link', :collection => @favorite_songs, :as => :song
+  .large-6.columns
+    %h5 Shows
+    =render :partial=> 'shows/show', :collection => @favorite_shows, :as => :show

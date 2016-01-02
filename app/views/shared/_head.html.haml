@@ -21,6 +21,8 @@
             %a{:href => "#"} Bands
             %ul.dropdown.m-menu
               %li
+                #band-list
+                  =render :partial=>'bands/link', :collection=>Band.all, :as => :band
 
           %li.divider
           %li.has-dropdown
