@@ -1,35 +1,43 @@
 %footer.footer
   .row
-    .small-12.medium-6.large-6.columns
+    .small-12.medium-6.large-3.columns
       %p.logo
         %i.fi-shield
-        Presidential Election Games
+        Crazy Dancing Guy
       %p.footer-links
         =link_to "About", pages_path("about")
         =link_to "How it Works", pages_path("how-it-works")
         =link_to "Privacy Policy", pages_path("privacy")
-        =link_to "Contact Us", '/contact-us'
+        =link_to "Contact Me", '/contact-us'
         -if user_signed_in?
 
           = link_to "Log out", destroy_session_path(:user), :method => :delete
 
-    .small-12.medium-6.large-6.columns
+    .small-12.medium-6.large-4.columns
+      %p.logo Socialize with us
       %ul.contact
         %li
           %p
             %i.fi-social-facebook>
-            facebook.com/ElectionGames2016
+            =link_to 'facebook.com/CrazyDancingGuy', 'http://facebook.com/CrazyDancingGuy'
         %li
           %p
             %i.fi-social-twitter>
-            twitter.com/ElectionGames
-        %li
-          %p
-            %i.fi-social-reddit>
+            =link_to 'twitter.com/CrazyDancingGuy', 'http://twitter.com/CrazyDancingGuy'
 
-  .row{:style=>'margin-top:15px;'}
-    .large-12.columns.text-center
-      %span{:style=>'color:#eee;'} Copyright © 2015 A Playground for the Mind
+    .small-12.medium-6.large-5.columns
+
+      %ul.hashtags
+        %h3=link_to '@crazydancingguy',"http://crazydancingguy.com"
+        %li=link_to '#climatejustice', 'https://twitter.com/hashtag/climatejustice'
+        %li=link_to '#socialjustice', 'https://twitter.com/hashtag/socialjustice'
+        %li=link_to '#genderequality', 'https://twitter.com/hashtag/genderequality'
+      %hr
+      .footer-links{:style=>'text-align:center;'}
+        =link_to "Play With Your Mind", "http://playwithyourmind.com"
+        =link_to "Presidential Election Games", "http://presidentialelectiongames.com"
+        =link_to "The Keyboard Playground", "http://freeonlinetypinggames.com"
+        =link_to "Good Luck Test", "http://goodlucktest.com"
 
 #login.reveal-modal.remove-whitespace{"data-reveal" => ""}
   .row

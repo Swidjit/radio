@@ -4,8 +4,8 @@
       %li
         %h1
           .hide-for-small
-            %i.fi-star{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
-            =link_to 'Site Name', root_path
+            %i.fi-sound{:style=>"font-size: 30px;position:relative;top:3px;  margin-right: 4px;margin-left: 8px;"}
+            =link_to 'jammies', root_path
           .show-for-small-only
 
             =link_to root_path do
@@ -17,28 +17,28 @@
       %ul.left
         -if user_signed_in?
           %li.divider
-          %li.has-dropdown.hide-for-small
-            %a{:href => "#"} POST
+          %li.has-dropdown
+            %a{:href => "#"} Bands
             %ul.dropdown.m-menu
               %li
-                .row{:style=>"background-color:#835B9F;"}
-                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "prose", :class=>"post-button"}
-                    %i.fi-pencil
-                    comment
-                    %p contribute to the political dialogue
-                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "link", :class=>"post-button"}
-                    %i.fi-web
-                    link
-                    %p news, blogs and other election resources
-                  .large-4.medium-6.small-12.columns.post-option{"data-post-type" => "video", :class=>"post-button"}
-                    %i.fi-video
-                    video
-                    %p embed a video from youtube, vimeo or vine
-                .row{:style=>"background-color:#835B9F;"}
-                  .large-6.medium-6.small-12.columns.post-option{"data-post-type" => "image", :class=>"post-button"}
-                    %i.fi-image
-                    image
-                    %p upload a photo, graphic or political meme
+
+          %li.divider
+          %li.has-dropdown
+            %a{:href => "#"} Songs
+            %ul.dropdown.m-menu
+              %li
+
+          %li.divider
+          %li.has-dropdown
+            %a{:href => "#"} Shows
+            %ul.dropdown.m-menu
+              %li
+
+          %li.divider
+          %li.has-dropdown
+            %a{:href => "#"} Jams
+            %ul.dropdown.m-menu
+              %li
         -if user_signed_in?
           %li=link_to current_user.username, user_path(current_user.username)
         -else
