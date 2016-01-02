@@ -213,7 +213,7 @@
   display: inline;
 
 }
-.song {
+.song-listing {
     color: #274472;
     cursor: pointer;
     height: 20px;
@@ -333,4 +333,8 @@
 .vote {
   display: inline;
   opacity: .4;
+}
+
+.reactions {
+  display:inline;
 }

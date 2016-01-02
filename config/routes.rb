@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :songs, :only => [] do
+    post 'reaction'
     collection do
       get 'load/:filename' => 'songs#show'
       get 'shuffle'
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
 
   resources :shows, :only => [] do
     get 'load'
+    post 'reaction'
   end
 
 

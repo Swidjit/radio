@@ -1,8 +1,9 @@
 class Reaction < ActiveRecord::Base
   belongs_to :user
-  belongs_to :post
+  belongs_to :show,class_name: 'Show', foreign_key: 'post_id'
+  belongs_to :song,class_name: 'Song', foreign_key: 'post_id'
 
-  validates_presence_of :post, :user, :reaction_type
+  validates_presence_of :post_id, :user, :reaction_type
 
   scope :loved, lambda{ where("#{table_name}.reaction_type = ?","love")}
   scope :liked, lambda{ where("#{table_name}.reaction_type = ?","like")}

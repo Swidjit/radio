@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151231214155) do
+ActiveRecord::Schema.define(version: 20160102121232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20151231214155) do
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "reaction_source"
   end
 
   create_table "shows", force: :cascade do |t|
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 20151231214155) do
     t.string   "description"
     t.string   "identifier"
     t.string   "slug"
+    t.integer  "importance",  default: 0
   end
 
   create_table "song_groups", force: :cascade do |t|
@@ -107,6 +109,7 @@ ActiveRecord::Schema.define(version: 20151231214155) do
     t.string  "slug"
     t.integer "song_group_id"
     t.integer "track_num"
+    t.integer "importance",    default: 0
   end
 
   create_table "taggings", force: :cascade do |t|

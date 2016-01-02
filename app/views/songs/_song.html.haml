@@ -1,28 +1,46 @@
-%h4
-  =link_to song.title, '/songs/group/'+song.song_group.title, :remote=>:true
+.song[song]
+  .show-link
+    =link_to show_load_path(song.show), :remote=>:true do
+      %span=song.show.title
+  %h4
+    =link_to song.title, '/songs/group/'+song.song_group.title, :remote=>:true
 
-  [#{song.length}]
-.show-link
-  =link_to show_load_path(song.show), :remote=>:true do
-    %h5=song.show.title
--if user_signed_in?
-  .song-frequency-label
-    %label song frequency
-  -vote = current_user.song_votes.where(:song_group=>song.song_group).first
-  -if vote
-    .song-frequency.hidden
-      =render :partial => 'songs/frequency', :locals=>{song: song}
-    :javascript
-      $('.votes .vote:eq(#{vote.frequency})').css('opacity','1');
-  -else
-    .song-frequency
-      =render :partial => 'songs/frequency', :locals=>{song: song}
+    [#{song.length}]
 
-#comments{:style=>'margin-top: 25px;'}
-  %h6 Comments
-  .comments
-    = render :partial => 'comments/comment', :collection => @comments, :as => :comment
   -if user_signed_in?
-    = render :partial => 'comments/form', :locals => { :comment => @new_comment }
-#similar
-  =render :partial => 'songs/link', :collection => @similar, :as => :song
+
+    #reactions
+      =link_to song_reaction_path(song.id, :type => "like"),  :remote=>"true",:method => "post" do
+        .like
+          %i.fi-like
+          .count=song.reactions.liked.size
+      =link_to song_reaction_path(song.id, :type => "love"),  :remote=>"true",:method => "post" do
+        .love
+          %i.fi-heart
+          .count=song.reactions.loved.size
+      =link_to song_reaction_path(song.id, :type => "share"),  {:remote=>"true",:method => "post"} do
+        .share
+          %i.fi-share
+          .count=song.reactions.shared.size
+
+
+    .song-frequency-label
+      %label song frequency
+    -vote = current_user.song_votes.where(:song_group=>song.song_group).first
+    -if vote
+      .song-frequency.hidden
+        =render :partial => 'songs/frequency', :locals=>{song: song}
+      :javascript
+        $('.votes .vote:eq(#{vote.frequency})').css('opacity','1');
+    -else
+      .song-frequency
+        =render :partial => 'songs/frequency', :locals=>{song: song}
+
+  #comments{:style=>'margin-top: 25px;'}
+    %h6 Comments
+    .comments
+      = render :partial => 'comments/comment', :collection => @comments, :as => :comment
+    -if user_signed_in?
+      = render :partial => 'comments/form', :locals => { :comment => @new_comment }
+  #similar
+    =render :partial => 'songs/link', :collection => @similar, :as => :song

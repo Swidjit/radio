@@ -63,14 +63,14 @@ class PostsController < ApplicationController
   end
 
   def create_or_destroy_reaction
-    @item = Post.find(params[:id])
+    @item = Show.find(params[:id])
     cancelled = false
-    @reaction = Reaction.where(:post_id => params[:id], :user_id => current_user.id, :reaction_type => params[:type]).first
+    @reaction = Reaction.where(:post_id => params[:id], :reaction_source=> 'Show', :user_id => current_user.id, :reaction_type => params[:type]).first
     if @reaction.present?
       Reaction.destroy(@reaction.id)
       cancelled = true
     else
-      @reaction = Reaction.create!(:post_id => params[:id], :user_id => current_user.id, :reaction_type => params[:type])
+      @reaction = Reaction.create!(:post_id => params[:id], :reaction_source=> 'Show', :user_id => current_user.id, :reaction_type => params[:type])
     end
     case params[:type]
       when 'like'

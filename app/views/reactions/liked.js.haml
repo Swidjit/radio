@@ -1,2 +1,2 @@
-$('#post_#{@item.id} .#{@class} .count').html("#{@count}");
-$('#post_#{@item.id} .#{@class}').toggleClass("selected");
+$('##{@item.class.name.downcase}_#{@item.id} .#{@class} .count').html("#{@count}");
+$('##{@item.class.name.downcase}_#{@item.id} .#{@class}').toggleClass("selected");
