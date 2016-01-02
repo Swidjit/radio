@@ -1,0 +1,25 @@
+
+-if user_signed_in?
+  #reactions
+    -if current_user != show.user
+      =link_to create_or_destroy_reaction_show_path(show.id, :type => "like"),  :remote=>"true",:method => "post" do
+        .like
+          %i.fi-like
+          .count=show.reactions.liked.size
+      =link_to create_or_destroy_reaction_show_path(show.id, :type => "love"),  :remote=>"true",:method => "post" do
+        .love
+          %i.fi-heart
+          .count=show.reactions.loved.size
+      =link_to create_or_destroy_reaction_show_path(show.id, :type => "share"),  {:remote=>"true",:method => "post"} do
+        .share
+          %i.fi-share
+          .count=show.reactions.shared.size
+
+    -else
+      %div{:style=> "cursor:pointer;margin-left: 10px; color: #274472;"}
+        =link_to show_path(show.id), :method=>:delete, :remote=>:true do
+          .delete
+            %i.fi-trash
+            delete
+
+    .fb-share-button{:style => 'margin-left: 13px;',"data-href" => show_url(post), "data-layout" => "button"}

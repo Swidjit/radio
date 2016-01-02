@@ -8,7 +8,7 @@
         .play-song.song-name{:track=>song.track_num,:filename=>song.filename, :title=>song.title, :show_id=>song.show.identifier}
           =song.title
           =song.length
-
+  =render 'shows/reactions', :locals=>{show: show}
 :javascript
   filenames["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:filename).to_json}" );
   song_names["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:title).to_json}" );
