@@ -21,6 +21,17 @@ class SongsController < ApplicationController
     render 'shuffle'
   end
 
+  def radio
+    rand = Random.new
+    offset = rand(Reaction.where(:user=>current_user).count)
+    @song=Song.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id)).offset(offset).first
+    @comments = @song.comment_threads.order('created_at desc')
+    @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
+    @similar = @song.song_group.songs
+    @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
+    render 'shuffle'
+  end
+
   def index
     @group = SongGroup.find_by_title(params[:title])
     @comments = @group.comment_threads.order('created_at desc')

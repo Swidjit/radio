@@ -78,6 +78,7 @@
   var song_names = {};
   var song_shows = {};
   var shuffle_mode = false;
+  var radio_mode = false;
   var current_track;
   $('#login-button').on('click', function() {
     var data = {
@@ -132,6 +133,10 @@
       if(shuffle_mode) {
         $.get('/songs/shuffle');
       }
+      else if(radio_mode) {
+        console.log('radio');
+        $.get('/songs/radio');
+      }
       else {
         current_track += 1;
         playSong();
@@ -171,12 +176,33 @@
       current_filename = filename;
       current_song = document.getElementById('current-song');
       current_song.play();
+      current_song.addEventListener("timeupdate", function() {
+          var duration = parseInt( current_song.duration ),
+              currentTime = parseInt( current_song.currentTime ),
+              timeLeft = duration - currentTime,
+              s, m;
+
+
+          s = timeLeft % 60;
+          m = Math.floor( timeLeft / 60 ) % 60;
+
+          s = s < 10 ? "0"+s : s;
+          m = m < 10 ? "0"+m : m;
+
+          $('#player .song-time').html(m+":"+s);
+
+      }, false);
       $('#player .song-title').html(song_name);
       $('#player .song-show').html(song_show);
   }
 
   $(document).on('click','.shuffle',function() {
     shuffle_mode = !shuffle_mode;
+    $(this).toggleClass('selected');
+
+  });
+  $(document).on('click','.radio',function() {
+    radio_mode = !radio_mode;
     $(this).toggleClass('selected');
 
   });

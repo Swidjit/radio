@@ -1,8 +1,8 @@
 #sidebar
   %hr
   .section
-
-    =link_to 'Your Favorites',favorites_user_path(current_user)
+    -if user_signed_in?
+      =link_to 'Your Favorites',favorites_user_path(current_user)
     =link_to 'Most Popular','/pages/popular'
   %hr
   .section

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     collection do
       get 'load/:filename' => 'songs#show'
       get 'shuffle'
+      get 'radio'
       get 'group/:title' => 'songs#index'
     end
   end
