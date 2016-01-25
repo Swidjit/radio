@@ -1,10 +1,9 @@
 .row
   .large-12.columns
-    %h3 Songs
     .row
-      #show-list.large-7.columns
-        %h5 Specific Jams
+      #show-list.large-6.medium-6.columns
+        %h4 Specific Jams
         =render :partial => 'song_small', :collection => @top_jams, :as=>:song
-      #song-col.large-5.columns
-        %h5 General Favorites
+      #song-col.large-6.medium-6.columns
+        %h4 General Favorites
         =render :partial => 'song_groups/song_group_small', :collection => @top_songs, :as=>:song_group

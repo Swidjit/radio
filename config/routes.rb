@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :bands, :only => [:show, :index, :update] do
     resources :shows, :only => [:show, :index, :update] do
       collection do
-        get 'year/:year' => 'shows#index'
+        get 'year/:year' => 'shows#load_shows'
       end
       resources :songs, :only => [:show, :index, :update]
     end
@@ -21,11 +21,12 @@ Rails.application.routes.draw do
 
   resources :songs, :only => [:index] do
     post 'reaction'
+    get 'load_group'
     collection do
       get 'load/:filename' => 'songs#show'
       get 'shuffle'
       get 'radio'
-      get 'group/:title' => 'songs#index'
+      get 'group/:title' => 'songs#load_group'
     end
   end
 
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
 
   resources :shows, :only => [:index] do
     get 'load'
+    get 'load_shows'
     post 'reaction'
   end
 

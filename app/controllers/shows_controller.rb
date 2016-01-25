@@ -5,7 +5,7 @@ class ShowsController < ApplicationController
 
   end
 
-  def index
+  def load_shows
     if request.xhr?
       if params.has_key?(:year)
         @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc)
@@ -63,6 +63,10 @@ class ShowsController < ApplicationController
         render 'reactions/liked'
 
     end
+  end
+
+  def index
+    @shows = Show.order(importance: :desc).limit(100)
   end
 
 end

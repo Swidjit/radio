@@ -171,10 +171,10 @@
       $('#player #song').html(html);
       $('#player .play').hide();
       $('#player .pause').show();
-      $('#show-list').removeClass('large-12');
-      $('#show-list').removeClass('medium-12');
+      $('#show-list').removeClass('large-12 large-6');
+      $('#show-list').removeClass('medium-12 medium-6');
       $('#show-list').addClass('large-6');
-      $('#show-list').addClass('medium-5');
+      $('#show-list').addClass('medium-6');
       $.get('/songs/load/'+song_id);
 
       current_filename = filename;
