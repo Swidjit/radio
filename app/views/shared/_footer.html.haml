@@ -77,6 +77,7 @@
   var filenames = {};
   var song_names = {};
   var song_shows = {};
+  var song_ids = {};
   var shuffle_mode = false;
   var radio_mode = false;
   var current_track;
@@ -114,7 +115,6 @@
     current_track = parseInt($(this).attr("track"))-1;
     show_id = $(this).attr("show_id");
     root_url = 'https://archive.org/download/'+show_id+'/';
-    console.log(root_url,current_track);
     playSong($(this));
   });
 
@@ -151,8 +151,10 @@
       filename = '';
       song_name = '';
       if(filenames[show_id]) {
-      console.log('file');
+
         filename = filenames[show_id][current_track];
+        console.log(song_ids);
+        song_id  = song_ids[show_id][current_track];
         song_name = song_names[show_id][current_track];
         song_show = song_shows[show_id];
       }
@@ -161,6 +163,8 @@
         filename = song.attr('filename');
         song_name = song.attr('title');
         song_show = song.attr('show');
+        song_id = song.attr('song_id');
+        console.log(song_id);
       }
       src=root_url+filename;
       html='<audio id="current-song" src="'+src+'"></audio>';
@@ -171,7 +175,7 @@
       $('#show-list').removeClass('medium-12');
       $('#show-list').addClass('large-6');
       $('#show-list').addClass('medium-5');
-      $.get('/songs/load/'+filename);
+      $.get('/songs/load/'+song_id);
 
       current_filename = filename;
       current_song = document.getElementById('current-song');

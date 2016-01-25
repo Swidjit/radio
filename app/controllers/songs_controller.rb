@@ -2,8 +2,7 @@ class SongsController < ApplicationController
 
   def show
     if request.xhr?
-      filename = (params[:filename] << '.mp3')
-      @song = Song.find_by_filename(filename)
+      @song = Song.find(params[:filename])
       @comments = @song.comment_threads.order('created_at desc')
       @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
       @similar = @song.song_group.songs
@@ -32,11 +31,10 @@ class SongsController < ApplicationController
     render 'shuffle'
   end
 
-  def index
+  def load_group
     @group = SongGroup.find_by_title(params[:title])
     @comments = @group.comment_threads.order('created_at desc')
     @new_comment = Comment.build_from(@group, current_user.id, "") if user_signed_in?
-    render 'load_group'
   end
 
   def reaction
@@ -82,5 +80,11 @@ class SongsController < ApplicationController
         render 'reactions/liked'
 
     end
+  end
+
+
+  def index
+    @top_songs = SongGroup.order(importance: :desc).limit(50)
+    @top_jams = Song.order(importance: :desc).limit(50)
   end
 end

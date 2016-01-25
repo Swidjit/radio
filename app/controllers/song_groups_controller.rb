@@ -10,4 +10,10 @@ class SongGroupsController < ApplicationController
     render 'songs/voted'
   end
 
+  def show
+    @song_group = SongGroup.find(params[:id])
+    @comments = @song_group.comment_threads.order('created_at desc')
+    @new_comment = Comment.build_from(@song_group, current_user.id, "") if user_signed_in?
+  end
+
 end

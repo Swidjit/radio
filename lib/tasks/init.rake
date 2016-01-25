@@ -75,12 +75,12 @@ namespace :init do
               @song = Song.create(:track_num => s['track'].to_i, :filename => s['name'], :title => s['title'], :length => s['length'], :band_id => band.id)
               @show.songs << @song
               t = s['title'].gsub(/[^\w,'&\s]/,'')
-              group = SongGroup.where('lower(title) = ?',t.downcase).first
+              group = SongGroup.where('lower(title) = ?',t.downcase).where(:band_id => band.id).first
               if group.present?
                 group.increment!(:count)
                 group.songs << @song
               else
-                group=SongGroup.create(:title=>t,:count=>1)
+                group=SongGroup.create(:title=>t,:count=>1, :band_id => band.id)
                 group.songs << @song
               end
             end

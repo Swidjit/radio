@@ -1,0 +1,30 @@
+.jam.song[song]
+  .play-song{:track=>song.track_num,:filename=>song.filename, :title=>song.title, :song_id=>song.id, :show=>song.show.title, :show_id=>song.show.identifier}
+    %h5
+      =link_to '#' do
+        =song.title
+        [#{song.length}]
+  .show-link
+    =link_to show_load_path(song.show), :remote=>:true do
+      %span=song.show.title
+
+
+
+
+  -if user_signed_in?
+
+    #reactions
+      =link_to song_reaction_path(song.id, :type => "like"),  :remote=>"true",:method => "post" do
+        .like
+          %i.fi-like
+          .count=song.reactions.liked.size
+      =link_to song_reaction_path(song.id, :type => "love"),  :remote=>"true",:method => "post" do
+        .love
+          %i.fi-heart
+          .count=song.reactions.loved.size
+      =link_to song_reaction_path(song.id, :type => "share"),  {:remote=>"true",:method => "post"} do
+        .share
+          %i.fi-share
+          .count=song.reactions.shared.size
+
+

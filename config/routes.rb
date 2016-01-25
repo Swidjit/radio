@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   end
 
-  resources :songs, :only => [] do
+  resources :songs, :only => [:index] do
     post 'reaction'
     collection do
       get 'load/:filename' => 'songs#show'
@@ -29,11 +29,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :song_groups, :only => [] do
+  resources :song_groups, :only => [:show] do
     get 'vote'
   end
 
-  resources :shows, :only => [] do
+  resources :shows, :only => [:index] do
     get 'load'
     post 'reaction'
   end

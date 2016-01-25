@@ -25,22 +25,13 @@
                   =render :partial=>'bands/link', :collection=>Band.all, :as => :band
 
           %li.divider
-          %li.has-dropdown
-            %a{:href => "#"} Songs
-            %ul.dropdown.m-menu
-              %li
+          %li
+            =link_to 'Songs', songs_path, :remote=>:true
 
           %li.divider
           %li.has-dropdown
-            %a{:href => "#"} Shows
-            %ul.dropdown.m-menu
-              %li
+            =link_to 'Shows', shows_path, :remote=>:true
 
-          %li.divider
-          %li.has-dropdown
-            %a{:href => "#"} Jams
-            %ul.dropdown.m-menu
-              %li
         -if user_signed_in?
           %li=link_to current_user.username, user_path(current_user.username)
         -else
