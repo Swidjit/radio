@@ -21,6 +21,8 @@ class PagesController < ApplicationController
     elsif params[:page_name]=='dashboard'
       @favorite_songs = Song.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id))
       @favorite_shows = Show.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id))
+      @recent_songs = Song.where('id in (?)',History.where(:user=>current_user, :resource_type => 'Song').pluck(:resource_id))
+      @recent_shows = Show.where('id in (?)',History.where(:user=>current_user, :resource_type => 'Show').pluck(:resource_id))
 
     elsif params[:page_name]=='discussion'
       @new_comments = Comment.order(created_at: :desc).limit(15).pluck(:commentable_id)

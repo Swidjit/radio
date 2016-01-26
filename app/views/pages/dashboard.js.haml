@@ -1,2 +1,2 @@
-$('#show-list').html("<h4>Favorite Songs</h4>#{j render :partial=> 'songs/link', :collection => @favorite_songs, :as => :song}");
-$('#song-col').html("<h4>Favorite Shows</h4>#{j render :partial=> 'shows/show', :collection => @favorite_shows, :as => :show}");
+$('#show-list').html("<h4>Favorite Songs</h4>#{j render :partial=> 'songs/link', :collection => @favorite_songs, :as => :song}<h4>Favorite Shows</h4>#{j render :partial=> 'shows/show', :collection => @favorite_shows, :as => :show}");
+$('#song-col').html("<h4>Recent Songs</h4>#{j render :partial=> 'songs/link', :collection => @recent_songs, :as => :song}<h4>Recent Shows</h4>#{j render :partial=> 'shows/show', :collection => @recent_shows, :as => :show}");

@@ -17,6 +17,7 @@ class ShowsController < ApplicationController
 
   def load
     @show = Show.find(params[:show_id])
+    History.create(:resource_type=>'Show',:resource_id => @show.id, :user=>current_user) if user_signed_in?
     render 'load_show'
   end
 

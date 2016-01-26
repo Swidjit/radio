@@ -7,6 +7,7 @@ class SongsController < ApplicationController
       @comments = @song.comment_threads.order('created_at desc')
       @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
       @similar = @song.song_group.songs
+      History.create(:resource_type=>'Song',:resource_id => @song.id, :user=>current_user) if user_signed_in?
       render 'load_song'
     end
   end
@@ -18,6 +19,7 @@ class SongsController < ApplicationController
     @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
     @similar = @song.song_group.songs
     @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
+    History.create(:resource_type=>'Song',:resource_id => @song.id, :user=>current_user) if user_signed_in?
     render 'shuffle'
   end
 
@@ -28,6 +30,7 @@ class SongsController < ApplicationController
     @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
     @similar = @song.song_group.songs
     @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
+    History.create(:resource_type=>'Song',:resource_id => @song.id, :user=>current_user) if user_signed_in?
   end
 
   def radio
