@@ -224,6 +224,12 @@
 .song-listing:hover {
     font-weight: 500;
 }
+.play, .pause, .fast-forward {
+  display: inline;
+}
+.song-controls, .play-controls, .song-info {
+  display: inline;
+}
 
 .song-title {
   display:inline;
@@ -235,6 +241,7 @@
   display:inline;
 }
 .song-show {
+  display:inline;
   font-size: .85em;
   opacity: .8;
 }

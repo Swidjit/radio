@@ -69,4 +69,14 @@ class ShowsController < ApplicationController
     @shows = Show.order(importance: :desc).limit(100)
   end
 
+
+  def load_random
+    rand = rand(Show.count)
+    @show = Show.offset(rand).first
+    @song = @show.songs.first
+    @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
+    @comments = @song.comment_threads.order('created_at desc')
+    @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
+  end
+
 end

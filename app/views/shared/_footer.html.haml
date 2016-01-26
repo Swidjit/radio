@@ -151,12 +151,18 @@
       filename = '';
       song_name = '';
       if(filenames[show_id]) {
+        if(typeof filenames[show_id][current_track] === "undefined") {
+          $.get('/shows/load_random/');
+        }
+        else {
 
-        filename = filenames[show_id][current_track];
-        console.log(song_ids);
-        song_id  = song_ids[show_id][current_track];
-        song_name = song_names[show_id][current_track];
-        song_show = song_shows[show_id];
+          filename = filenames[show_id][current_track];
+          console.log('valid');
+          song_id  = song_ids[show_id][current_track];
+          song_name = song_names[show_id][current_track];
+          song_show = song_shows[show_id];
+          $.get('/songs/load/'+song_id);
+        }
       }
       else {
         console.log(song.attr('filename'));
@@ -164,7 +170,7 @@
         song_name = song.attr('title');
         song_show = song.attr('show');
         song_id = song.attr('song_id');
-        console.log(song_id);
+        $.get('/songs/load/'+song_id);
       }
       src=root_url+filename;
       html='<audio id="current-song" src="'+src+'"></audio>';
@@ -175,7 +181,7 @@
       $('#show-list').removeClass('medium-12 medium-6');
       $('#show-list').addClass('large-6');
       $('#show-list').addClass('medium-6');
-      $.get('/songs/load/'+song_id);
+
 
       current_filename = filename;
       current_song = document.getElementById('current-song');

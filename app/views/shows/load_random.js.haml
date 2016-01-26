@@ -1,0 +1,28 @@
+$('#show-list').html('#{j render @show}');
+$('#show-list .show-songs').toggle();
+current_song.remove();
+$('#player #song').html('<audio id="current-song" src="#{@src}"></audio>');
+current_song = document.getElementById('current-song');
+current_song.play();
+$('#player .song-title').html('#{@song.title}');
+$('#player .song-show').html('#{@show.title}');
+current_song.addEventListener("timeupdate", function() {
+var duration = parseInt( current_song.duration ),
+currentTime = parseInt( current_song.currentTime ),
+timeLeft = duration - currentTime,
+s, m;
+
+
+s = timeLeft % 60;
+m = Math.floor( timeLeft / 60 ) % 60;
+
+s = s < 10 ? "0"+s : s;
+m = m < 10 ? "0"+m : m;
+
+$('#player .song-time').html(m+":"+s);
+
+}, false);
+
+
+$('#song-col').html('#{j render @song}');
+current_track=0;
