@@ -321,7 +321,14 @@
   opacity: 1;
 }
 
-
+.band-label::after {
+  content: ' >';
+}
+.band-label {
+  font-size: 1.3em;
+  color: $purple;
+  cursor:pointer;
+}
 .song-frequency {
   padding: 5px 12px;
   background-color: #eed;

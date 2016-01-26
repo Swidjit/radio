@@ -2,10 +2,11 @@
   %hr
   .section
     -if user_signed_in?
-      =link_to 'Your Favorites',favorites_user_path(current_user)
-    =link_to 'Most Popular','/pages/popular'
+      =link_to 'Your Favorites',favorites_user_path(current_user), :remote=>:true
+    =link_to 'Most Popular','/pages/popular', :remote=>:true
   %hr
   .section
+    #band-label
     #years
       -if @band
         -years = @band.shows.order(year: :asc).pluck(:year)

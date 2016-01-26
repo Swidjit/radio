@@ -1,4 +1,4 @@
 
 $('#show-list').html('<h4>Shows</h4>#{j render @shows}');
-$("<h5>#{@band.name}</h5>").insertBefore('#years');
+$('#band-label').html("<div class='band-label show-bands'>#{@band.name}</div>");
 $('#years').append('#{j render :partial => "bands/years"}');

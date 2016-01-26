@@ -149,6 +149,10 @@
     }
   }, true);
 
+  function startRadio() {
+
+  }
+
 
   function playSong(song) {
       filename = '';
@@ -211,7 +215,7 @@
 
   });
 
-  $('.show-bands').on('click',function() {
+  $(document).on('click','.show-bands',function() {
     $('#show-list').html('#{j render :partial=>"bands/band_list"}');
   });
 

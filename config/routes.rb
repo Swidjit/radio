@@ -56,7 +56,6 @@ Rails.application.routes.draw do
 
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages
-  get '/posts/:category/:tag' => 'posts#index', :as => :filtered_posts
   get '/sitemap.xml' => 'pages#sitemap'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 

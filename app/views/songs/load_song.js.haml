@@ -1,5 +1,7 @@
 $('#song-col').html('#{j render @song}');
+if(current_song){
 current_song.remove();
+}
 $('#player #song').html('<audio id="current-song" src="#{@src}"></audio>');
 current_song = document.getElementById('current-song');
 current_song.play();
