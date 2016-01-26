@@ -52,7 +52,11 @@ Rails.application.routes.draw do
       post 'create_or_destroy_reaction'
     end
   end
-  resources :comments, :only => [:create, :destroy]
+  resources :comments, :only => [:create, :destroy] do
+    collection do
+      post 'add_from_feed'
+    end
+  end
 
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages

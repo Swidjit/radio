@@ -1,0 +1,8 @@
+.row{:style=>'margin-top: 8px;'}
+  #show-list.large-6.columns
+    %h4 Recent comments
+    =render :partial => 'songs/song_with_comments', :collection => @recent_comments, :as => :song
+
+  #song-col.large-6.columns
+    %h4 Active threads
+    =render :partial => 'songs/song_with_comments', :collection => @popular_songs.limit(25), :as => :song

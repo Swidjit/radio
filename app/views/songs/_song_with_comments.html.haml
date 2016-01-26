@@ -1,0 +1,10 @@
+.song-link.play-song{:track=>song.track_num,:filename=>song.filename, :title=>song.title, :song_id=>song.id, :show=>song.show.title, :show_id=>song.show.identifier}
+  .song-name
+    %span{:style=>"color: #a82512;"}=song.title
+    =song.show.title
+.song-comments{:style=>'margin-top: 5px;'}
+  %div{:id => "comments-#{song.id}"}
+    .comments
+      = render :partial => 'comments/mini_comment', :collection => song.comment_threads.order('created_at desc'), :as => :comment
+    -if user_signed_in?
+      = render :partial => 'comments/mini_form', :locals => { :comment => Comment.build_from(song, current_user.id, "") }

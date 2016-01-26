@@ -1,0 +1,4 @@
+$('#comments-#{@obj.id} .comments').append("#{escape_javascript render :partial=>'mini_comment', :locals=>{comment:@comment}}");
+$('#comments-#{@obj.id} .comment-form .input-field').val('');
+
+

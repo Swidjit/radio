@@ -1,0 +1,8 @@
+.comment-form
+	#new-comment
+		= form_for comment, url: add_from_feed_comments_path, :remote => true do |f|
+			= f.text_area :body, :label => false, :class => "input-field", :id => "comment-text"
+			= f.hidden_field :commentable_id, :value => comment.commentable_id
+			= f.hidden_field :commentable_type, :value => comment.commentable_type
+			= f.submit "comment", :class => "button tiny", :disable_with => "Submitting…"
+

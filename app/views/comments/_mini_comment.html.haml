@@ -1,0 +1,10 @@
+/ COMMENT
+.comment[comment]{:style=>'padding: 3px 6px; background-color: #eed;margin-bottom: 2px;'}
+  %section.content
+    = comment.body
+    %div{:style=>'font-size: .8em;'}
+      =link_to user_path(comment.user) do
+        @#{comment.user.username}
+      said
+      %span.data
+        = comment.created_at.strftime("%B %d, %Y at %l:%M %p")

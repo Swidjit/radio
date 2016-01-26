@@ -5,8 +5,6 @@
       =link_to user_path(comment.user) do
         %i.icon>
         =comment.user.username
-        -if comment.user == current_user
-          %span.label owner
       %small
         said
         %span.data

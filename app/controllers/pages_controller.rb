@@ -22,6 +22,11 @@ class PagesController < ApplicationController
       @favorite_songs = Song.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id))
       @favorite_shows = Show.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id))
 
+    elsif params[:page_name]=='discussion'
+      @new_comments = Comment.order(created_at: :desc).limit(15).pluck(:commentable_id)
+      @recent_comments = Song.find(@new_comments)
+
+      @popular_songs = Song.where('comment_count>0').order(comment_count: :asc).limit(15)
     end
     render params[:page_name]
   end
