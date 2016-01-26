@@ -1,36 +1,48 @@
 .signup-panel.login-form
-  %h2.text-center Sign up
-  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-    = devise_error_messages!
 
-    .row.collapse
-      .small-2.columns
-        %span.prefix
-          %i.fi-mail
-      .small-10.columns
-        %input{:placeholder => "email address", :type => "text", :id=>'email', :name=>'user[email]'}
-    .row.collapse
-      .small-2.columns
-        %span.prefix
-          %i.fi-torso-female
-      .small-10.columns
-        %input{:placeholder => "username", :type => "text", :id=>'username', :name=>'user[username]'}
-    .row.collapse
-      .small-2.columns
-        %span.prefix
-          %i.fi-lock
-      .small-10.columns
-        %input{:placeholder => "password", :type => "password", :min_length => 8, :id=>'password', :autocomplete => "off", :name=>'user[password]'}
-    .row.collapse
-      .small-2.columns
-        %span.prefix
-          %i.fi-lock
-      .small-10.columns
-        %input{:placeholder => "confirm password", :type => "password", :id=>'password_confirmation', :autocomplete => "off", :name=>'user[password_confirmation]'}
   .row
-    .large-12.columns
-      #signup-button.button Sign Up
-      = render "devise/shared/links"
+
+    .large-8.columns
+      %h2.text-center Sign up
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = devise_error_messages!
+
+        .row.collapse
+          .small-1.columns
+            %span.prefix
+              %i.fi-mail
+          .small-11.columns
+            %input{:placeholder => "email address", :type => "text", :id=>'email', :name=>'user[email]'}
+        .row.collapse
+          .small-1.columns
+            %span.prefix
+              %i.fi-torso-female
+          .small-11.columns
+            %input{:placeholder => "username", :type => "text", :id=>'username', :name=>'user[username]'}
+        .row.collapse
+          .small-1.columns
+            %span.prefix
+              %i.fi-lock
+          .small-11.columns
+            %input{:placeholder => "password", :type => "password", :min_length => 8, :id=>'password', :autocomplete => "off", :name=>'user[password]'}
+        .row.collapse
+          .small-1.columns
+            %span.prefix
+              %i.fi-lock
+          .small-11.columns
+            %input{:placeholder => "confirm password", :type => "password", :id=>'password_confirmation', :autocomplete => "off", :name=>'user[password_confirmation]'}
+      .row
+        .large-12.columns
+          #signup-button.button Sign Up
+          %br
+          = render "devise/shared/links"
+    .large-4.columns{:style=>'margin-top: 10px;'}
+      %ul
+        %h4 Join now
+        %li Customize jam radio
+        %li Create playlists
+        %li Discuss shows & songs
+        %li Discover new tunes
 :css
   #terms {
     float:left;

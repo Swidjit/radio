@@ -66,6 +66,29 @@
           Sign Up
   %a.close-reveal-modal ×
 
+#collect.reveal-modal{"data-reveal" => ""}
+  %h3 add to playlist
+  .row
+    .large-5.columns
+      %h4 Add to existing playlist
+      =form_tag add_song_playlists_path, :method=>:post, :remote=>:true do |f|
+        =hidden_field_tag :song_id, '',:class => 'song-id'
+        %label playlist
+        =select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :title), :prompt => 'choose playlist'
+        =submit_tag "Add", :class => "button"
+    .large-7.columns
+      %h4 Add to a new collection
+      =form_for Playlist.new, :url => user_playlists_path(current_user), :method=>:post, :remote=>:true do |f|
+        =hidden_field_tag :song_id, '',:class => 'song-id'
+        %label Name your playlist
+        =f.text_field :title
+        %label Describe your playlist
+        =f.text_area :description
+        =f.submit "Add to New", :class => "button"
+
+  %a.close-reveal-modal ×
+
+
 #new-post.reveal-modal{"data-reveal" => ""}
   #form
   %a.close-reveal-modal ×
@@ -250,6 +273,7 @@
   });
 
   $(document).on('click','.show',function() {
+    $('.show-songs').hide();
     $(this).find('.show-songs').toggle();
     if($(this).find('.show-title').hasClass('expanded')) {
       $(this).find('.show-title').removeClass('expanded');
@@ -258,6 +282,24 @@
       $(this).find('.show-title').addClass('expanded');
     }
 
+  });
+
+  $(document).on('click','.playlist',function() {
+    $('.playlist-songs').hide();
+    $(this).find('.playlist-songs').toggle();
+    if($(this).find('.playlist-title').hasClass('expanded')) {
+      $(this).find('.playlist-title').removeClass('expanded');
+    }
+    else {
+      $(this).find('.playlist-title').addClass('expanded');
+    }
+
+  });
+
+  $( document ).on( 'click', '.collect', function () {
+    var id = $(this).data('song-id');
+    $('#collect .song-id').val(id);
+    $('#collect').foundation('reveal','open');
   });
 
 

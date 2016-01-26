@@ -1,2 +1,1 @@
-$('#show-list').html("<h4>Recently Added Shows</h4>#{j render :partial=> 'shows/show', :collection => @new_shows, :as => :show}");
-$('#song-col').html("<h4>Random Songs</h4>#{j render :partial=> 'songs/link', :collection => @random_songs, :as => :song}");
+$('#content').html("#{j render :partial=>'explore'}");

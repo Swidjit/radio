@@ -1,0 +1,7 @@
+.playlist[playlist]
+  .playlist-title
+    =playlist.title
+    %span (#{playlist.songs.count} songs)
+  .playlist-songs
+    -playlist.songs.each do |song|
+      =render :partial => 'songs/link', :locals => {song: song}

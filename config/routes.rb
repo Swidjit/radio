@@ -7,6 +7,9 @@ Rails.application.routes.draw do
       post 'upload_file'
       get 'favorites'
     end
+    resources :playlists, :only => [:show, :create,:destroy] do
+
+    end
   end
 
   resources :bands, :only => [:show, :index, :update] do
@@ -55,6 +58,14 @@ Rails.application.routes.draw do
   resources :comments, :only => [:create, :destroy] do
     collection do
       post 'add_from_feed'
+    end
+  end
+  resources :playlists,:only => [:index, :show] do
+    member do
+      post :add_song_to
+    end
+    collection do
+      post :add_song
     end
   end
 

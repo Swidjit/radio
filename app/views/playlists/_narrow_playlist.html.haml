@@ -1,0 +1,12 @@
+.playlist[playlist]
+  =link_to playlist do
+    .playlist-header
+      =playlist.title
+      %span (#{playlist.songs.count} songs)
+    .playlist-desc
+      =playlist.description
+    .playlist-songs
+      .row
+        -playlist.songs.limit(2).each do |p|
+          .large-12.medium-12.columns
+            =render p

@@ -1,0 +1,33 @@
+.row
+  #show-list.large-6..medium-6.columns
+    .left
+      %h3 Playlists
+    .right
+      =link_to playlists_path do
+        .button.small#create{"data-reveal-id"=>'create-form'} create playlist
+    %hr
+    =render @playlists
+  #song-col.large-6.medium-6.columns
+    %p Playlists are a great tool for organizaing and sharing content surrounding the 2016 presidential candidates, the primaries, and the general election.  Think of it as a Pinterest for election content.
+
+-if user_signed_in?
+  #create-form.reveal-modal{"data-reveal" => ""}
+    %h4 Create a playlist
+    =form_for Playlist.new, :url => user_playlists_path(current_user), :method=>:post do |f|
+      %label Name your playlist
+      =f.text_field :title
+      %label Describe your playlist
+      =f.text_area :description
+      =f.submit "Create", :class => "button"
+    %a.close-reveal-modal ×
+
+-else
+  :javascript
+    $('#create').on('click', function() {
+      $('#login').foundation('reveal','open');
+    });
+    $('#create1').on('click', function() {
+      $('#login').foundation('reveal','open');
+    });
+
+

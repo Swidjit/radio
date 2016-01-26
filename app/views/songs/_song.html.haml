@@ -22,7 +22,9 @@
         .share
           %i.fi-share
           .count=song.reactions.shared.size
-
+      .collect{:'data-song-id'=>song.id,:style=> "cursor:pointer;margin-left: 10px; color: #274472;"}
+        %i.fi-folder
+        collect
 
     .song-frequency-label
       %label song frequency

@@ -1,0 +1,10 @@
+.row{:style=>'margin-top: 8px;'}
+  #show-list.large-6.columns
+    %h4 Recently Added Shows
+    =render :partial=> 'shows/show', :collection => @new_shows, :as => :show
+
+  #song-col.large-6.columns
+    -if !user_signed_in?
+      =render :partial => 'shared/sign_up'
+    %h4 Random Songs
+    =render :partial=> 'songs/link', :collection => @random_songs, :as => :song

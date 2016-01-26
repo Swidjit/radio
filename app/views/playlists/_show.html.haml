@@ -1,0 +1,39 @@
+.row
+  .large-12.columns
+    .breadcrumb.left
+      %h3=@playlist.title
+      =link_to '2016 Election', root_path
+      >
+      =link_to "Playlists", playlists_path
+      >
+      =link_to @playlist.title, @playlist
+    .right
+      =link_to playlists_path do
+        #create.button.small create playlist
+.row
+  .large-12.columns
+    %p=@playlist.description
+    %hr
+.row
+  .large-6.columns
+    %h4 in this playlist:
+    =render @playlist.songs
+  .large-6.columns
+    %h4 other playlists by #{@playlist.user.username}
+    =render @playlist.user.playlists
+-if user_signed_in?
+  #create-form.reveal-modal{"data-reveal" => ""}
+    %h4 Create a playlist
+    =form_for Playlist.new, :url => user_playlists_path(current_user), :method=>:post do |f|
+      %label Name your playlist
+      =f.text_field :title
+      %label Describe your playlist
+      =f.text_area :description
+      =f.submit "Create", :class => "button"
+    %a.close-reveal-modal ×
+
+-else
+  :javascript
+    $('#create').on('click', function() {
+      $('#login').foundation('reveal','open');
+    });

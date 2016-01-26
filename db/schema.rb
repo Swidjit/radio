@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126175836) do
+ActiveRecord::Schema.define(version: 20160126214839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,23 @@ ActiveRecord::Schema.define(version: 20160126175836) do
   end
 
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
+
+  create_table "playlists", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "description"
+    t.boolean  "public"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "playlists_songs", id: false, force: :cascade do |t|
+    t.integer "playlist_id"
+    t.integer "song_id"
+  end
+
+  add_index "playlists_songs", ["playlist_id"], name: "index_playlists_songs_on_playlist_id", using: :btree
+  add_index "playlists_songs", ["song_id"], name: "index_playlists_songs_on_song_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "user_id"

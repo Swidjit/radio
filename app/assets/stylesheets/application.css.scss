@@ -264,7 +264,7 @@
     -moz-column-count: 2; /* Firefox */
     column-count: 2;
 }
-.show-songs{
+.show-songs, .playlist-songs{
   display:none;
 }
 .song-link {
@@ -272,21 +272,23 @@
   margin-bottom: 2px;
 
 }
-
-.show-title {
+.show {
+  margin-bottom: 5px;
+}
+.show-title,.playlist-title {
   font-size: 1.2em;
   color: #274472;
   font-weight: 500;
   cursor:pointer;
 }
-.show-title:hover {
+.show-title:hover,.playlist-title:hover {
   text-decoration: underline;
 
 }
-.show-title.expanded:hover:after {
+.show-title.expanded:hover:after,.playlist-title.expanded:hover:after {
     content: '\25B2';
 }
-.show-title:hover:after {
+.show-title:hover:after,.playlist-title:hover:after {
     content: '\25BC';
 }
 
