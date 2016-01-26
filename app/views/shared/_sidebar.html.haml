@@ -2,8 +2,10 @@
   %hr
   .section
     -if user_signed_in?
-      =link_to 'Your Favorites',favorites_user_path(current_user), :remote=>:true
-    =link_to 'Most Popular','/pages/popular', :remote=>:true
+      =link_to 'Dashboard','/pages/dashboard', :remote=>:true
+    =link_to 'Popular','/pages/popular', :remote=>:true
+    =link_to 'Explore','/pages/explore', :remote=>:true
+    =link_to 'Discussion','/pages/discussion', :remote=>:true
   %hr
   .section
     #band-label

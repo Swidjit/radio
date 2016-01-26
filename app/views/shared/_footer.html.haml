@@ -70,6 +70,14 @@
   #form
   %a.close-reveal-modal ×
 
+-if user_signed_in?
+  :javascript
+    $.get('/pages/dashboard');
+
+-else
+  :javascript
+    $.get('/pages/popular');
+
 :javascript
   var current_song;
   var current_filename;
