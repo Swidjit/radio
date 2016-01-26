@@ -227,6 +227,10 @@
 .play, .pause, .fast-forward {
   display: inline;
 }
+
+.fast-forward {
+  margin-left: 8px;
+}
 .song-controls, .play-controls, .song-info {
   display: inline;
 }

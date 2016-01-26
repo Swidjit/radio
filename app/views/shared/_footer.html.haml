@@ -128,6 +128,9 @@
     $('#player .play').hide();
     $('#player .pause').show();
   });
+  $(document).on('click', '.fast-forward', function() {
+    forwardAudio();
+  });
   document.addEventListener('ended', function(e){
     if($(e.target).is('audio')){
       if(shuffle_mode) {
@@ -161,6 +164,7 @@
           song_id  = song_ids[show_id][current_track];
           song_name = song_names[show_id][current_track];
           song_show = song_shows[show_id];
+
           $.get('/songs/load/'+song_id);
         }
       }
@@ -170,11 +174,10 @@
         song_name = song.attr('title');
         song_show = song.attr('show');
         song_id = song.attr('song_id');
+
         $.get('/songs/load/'+song_id);
       }
-      src=root_url+filename;
-      html='<audio id="current-song" src="'+src+'"></audio>';
-      $('#player #song').html(html);
+
       $('#player .play').hide();
       $('#player .pause').show();
       $('#show-list').removeClass('large-12 large-6');
@@ -184,26 +187,7 @@
 
 
       current_filename = filename;
-      current_song = document.getElementById('current-song');
-      current_song.play();
-      current_song.addEventListener("timeupdate", function() {
-          var duration = parseInt( current_song.duration ),
-              currentTime = parseInt( current_song.currentTime ),
-              timeLeft = duration - currentTime,
-              s, m;
 
-
-          s = timeLeft % 60;
-          m = Math.floor( timeLeft / 60 ) % 60;
-
-          s = s < 10 ? "0"+s : s;
-          m = m < 10 ? "0"+m : m;
-
-          $('#player .song-time').html(m+":"+s);
-
-      }, false);
-      $('#player .song-title').html(song_name);
-      $('#player .song-show').html(song_show);
   }
 
   $(document).on('click','.shuffle',function() {
@@ -255,3 +239,16 @@
   });
 
 
+  function forwardAudio() {
+
+    // Check for audio element support.
+    if (window.HTMLAudioElement) {
+      try {
+        current_song.currentTime += 30.0;
+      }
+      catch (e) {
+        // Fail silently but show in F12 developer tools console
+        if(window.console && console.error("Error:" + e));
+      }
+    }
+  }
