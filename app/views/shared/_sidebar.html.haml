@@ -12,3 +12,5 @@
         -years = years.uniq
         -for i in years
           =link_to i.to_s, '/bands/'+@band.id.to_s+'/shows/year/'+i.to_s, :remote => :true
+    .show-bands
+      show bands

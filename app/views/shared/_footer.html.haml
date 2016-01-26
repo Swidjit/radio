@@ -205,6 +205,16 @@
 
   });
 
+  $(document).on('click','.band',function() {
+    band_id = $(this).attr('band_id')
+    $.get('/bands/'+band_id);
+
+  });
+
+  $('.show-bands').on('click',function() {
+    $('#show-list').html('#{j render :partial=>"bands/band_list"}');
+  });
+
   $(document).on('mouseover','.vote',function() {
     labels = ['never','infrequently','regularly','frequently'];
     num = $(this).index();

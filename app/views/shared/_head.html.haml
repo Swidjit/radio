@@ -17,12 +17,8 @@
       %ul.left
         -if user_signed_in?
           %li.divider
-          %li.has-dropdown
-            %a{:href => "#"} Bands
-            %ul.dropdown.m-menu
-              %li
-                #band-list
-                  =render :partial=>'bands/link', :collection=>Band.all, :as => :band
+          %li
+            =link_to 'Bands', bands_path, :remote=>:true, :class => 'show-bands'
 
           %li.divider
           %li

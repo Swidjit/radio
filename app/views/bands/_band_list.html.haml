@@ -1,0 +1,8 @@
+%h4 All Bands
+-Band.all.each do |band|
+  .band{:band_id=>band.id}=band.name
+  .band-years
+    -years = band.shows.order(year: :asc).pluck(:year)
+    -years = years.uniq
+    -for i in years
+      =link_to i.to_s, '/bands/'+band.id.to_s+'/shows/year/'+i.to_s, :remote => :true
