@@ -5,7 +5,7 @@
     -show.songs.each do |song|
       .song-listing
         .song-track [#{song.track_num}]
-        .play-song.song-name{:track=>song.track_num,:filename=>song.filename, :title=>song.title, :show_id=>song.show.identifier}
+        .play-song.song-name{:origin => 'show',:track=>song.track_num,:filename=>song.filename, :song_id=>song.id,:title=>song.title, :show_id=>song.show.identifier}
           =song.title
           =song.length
   -if user_signed_in?

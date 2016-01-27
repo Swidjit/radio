@@ -109,8 +109,8 @@
   var song_names = {};
   var song_shows = {};
   var song_ids = {};
-  var shuffle_mode = false;
-  var radio_mode = false;
+  var mode = "shuffle";
+  var playlist;
   var current_track;
   $('#login-button').on('click', function() {
     var data = {
@@ -139,12 +139,22 @@
     });
   });
 
-
-
   $(document).on('click', '.play-song', function() {
     $('#player').show();
     current_track = parseInt($(this).attr("track"))-1;
     show_id = $(this).attr("show_id");
+    origin = $(this).attr('origin');
+    if(origin=='show' && mode != 'radio') {
+      mode = 'show';
+      console.log(mode);
+    }
+    else if(origin=='playlist') {
+      mode = 'playlist';
+      current_track = parseInt($(this).attr("track"));
+      playlist = $(this).closest('.playlist');
+      console.log(playlist);
+      console.log(current_track);
+    }
     root_url = 'https://archive.org/download/'+show_id+'/';
     playSong($(this));
   });
@@ -164,54 +174,85 @@
   });
   document.addEventListener('ended', function(e){
     if($(e.target).is('audio')){
-      if(shuffle_mode) {
+      if(mode == "shuffle") {
         $.get('/songs/shuffle');
       }
-      else if(radio_mode) {
-        console.log('radio');
+      else if(mode == "radio") {
         $.get('/songs/radio');
       }
-      else {
+      else if(mode == "playlist"){
         current_track += 1;
-        playSong();
+
+        nextPlaylistSong();
       }
-
-
+      else if(mode == "show"){
+        current_track += 1;
+        nextShowSong();
+      }
     }
   }, true);
 
-  function startRadio() {
+  function nextShowSong() {
+    if(filenames[show_id]) {
+      if(typeof filenames[show_id][current_track] === "undefined") {
+        $.get('/shows/load_random/');
+      }
+      else {
+
+        filename = filenames[show_id][current_track];
+        console.log('valid');
+        song_id  = song_ids[show_id][current_track];
+        song_name = song_names[show_id][current_track];
+        song_show = song_shows[show_id];
+
+        $.get('/songs/load/'+song_id);
+      }
+    }
 
   }
+  function nextPlaylistSong() {
+    console.log(current_track);
+    if(current_track == playlist.find('.song-link').length) {
+      current_track = 0;
+      playlist = playlist.next();
 
+      if(!playlist.hasClass('playlist')) {
+        mode = 'shuffle';
+        $.get('/songs/shuffle');
+
+      }
+      else {
+        obj = playlist.find('.song-link').eq(current_track);
+        filename = obj.attr('filename');
+        current_filename = filename;
+
+        song_id = obj.attr('song_id');
+        $.get('/songs/load/'+song_id);
+      }
+    }
+    else {
+      obj = playlist.find('.song-link').eq(current_track);
+      console.log('we');
+      filename = obj.attr('filename');
+      current_filename = filename;
+
+      song_id = obj.attr('song_id');
+      $.get('/songs/load/'+song_id);
+    }
+
+  }
 
   function playSong(song) {
       filename = '';
       song_name = '';
-      if(filenames[show_id]) {
-        if(typeof filenames[show_id][current_track] === "undefined") {
-          $.get('/shows/load_random/');
-        }
-        else {
+      filename = song.attr('filename');
+      song_name = song.attr('title');
+      song_show = song.attr('show');
+      song_id = song.attr('song_id');
+      current_filename = filename;
 
-          filename = filenames[show_id][current_track];
-          console.log('valid');
-          song_id  = song_ids[show_id][current_track];
-          song_name = song_names[show_id][current_track];
-          song_show = song_shows[show_id];
+      $.get('/songs/load/'+song_id);
 
-          $.get('/songs/load/'+song_id);
-        }
-      }
-      else {
-        console.log(song.attr('filename'));
-        filename = song.attr('filename');
-        song_name = song.attr('title');
-        song_show = song.attr('show');
-        song_id = song.attr('song_id');
-
-        $.get('/songs/load/'+song_id);
-      }
 
       $('#player .play').hide();
       $('#player .pause').show();
@@ -223,18 +264,30 @@
       $("html, body").animate({
        scrollTop:0
        },"fast");
-      current_filename = filename;
+
 
   }
 
   $(document).on('click','.shuffle',function() {
-    shuffle_mode = !shuffle_mode;
-    $(this).toggleClass('selected');
+    if(mode == "shuffle") {
+      mode = "off";
+      $(this).removeClass('selected');
+    }
+    else {
+      mode = "shuffle";
+      $(this).addClass('selected');
+    }
 
   });
   $(document).on('click','.radio',function() {
-    radio_mode = !radio_mode;
-    $(this).toggleClass('selected');
+    if(mode == "radio") {
+      mode = "off";
+      $(this).removeClass('selected');
+    }
+    else {
+      mode = "radio";
+      $(this).addClass('selected');
+    }
 
   });
   $(document).on('click','.refresh',function() {

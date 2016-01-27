@@ -3,5 +3,9 @@
     =playlist.title
     %span (#{playlist.songs.count} songs)
   .playlist-songs
-    -playlist.songs.each do |song|
-      =render :partial => 'songs/link', :locals => {song: song}
+    -playlist.songs.each_with_index do |song, index|
+      .song-link.play-song{:origin=>'playlist',:track=>index,:filename=>song.filename, :title=>song.title, :song_id=>song.id, :show=>song.show.title, :show_id=>song.show.identifier}
+        .song-name
+          =song.title
+        .song-show-title
+          =song.show.title
