@@ -71,8 +71,10 @@ Rails.application.routes.draw do
 
   root 'pages#home'
   get '/pages/:page_name' => 'pages#index', :as => :pages
+  post '/search/:scope' => 'search#index', :as => :search
   get '/sitemap.xml' => 'pages#sitemap'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

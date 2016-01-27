@@ -1,0 +1,2 @@
+$('#song-results').html('#{j render :partial => 'song_groups/song_group_small', :collection => @songs, :as => :song_group}');
+$('#band-results').html('#{j render :partial => 'bands/link', :collection => @bands, :as => :band}');

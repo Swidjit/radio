@@ -1,0 +1,27 @@
+%input#search
+.row#search-results
+  .large-6.columns
+    #song-results
+      hey
+  .large-6.columns
+    #band-results
+      hey
+:javascript
+  jQuery(function(){
+      jQuery('input#search')
+        .data('timeout', null)
+        .keyup(function(){
+            clearTimeout(jQuery(this).data('timeout'));
+            jQuery(this).data('timeout', setTimeout(function(){
+             if($("input#search").val().length > 3) {
+               $.post('/search/songs-and-bands', { q: $("input#search").val()});
+
+              }
+              else {
+                $('#search-result').css('display','none');
+              }
+            //timeout function
+
+            }, 500));
+        });
+    });

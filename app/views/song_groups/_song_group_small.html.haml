@@ -1,5 +1,5 @@
 .song-group-title
-  =link_to song_group do
+  =link_to '/songs/group/'+song_group.title, :remote=>:true do
     =song_group.title
     (#{song_group.count})
 .song-group-title=song_group.band.name
