@@ -196,8 +196,8 @@
   width:100%;
   display:none;
   i {
-    font-size: 55px;
-    line-height: 60px;
+    font-size:35px;
+    line-height:35px;
   }
   color: #eee;
 }
@@ -231,10 +231,13 @@
 .fast-forward {
   margin-left: 8px;
 }
-.song-controls, .play-controls, .song-info {
+.song-controls, .play-controls {
   display: inline;
 }
-
+.song-info {
+  margin-top: 5px;
+  line-height: 17px;
+}
 .song-title {
   display:inline;
 
@@ -254,6 +257,20 @@
   line-height: 30px;
   font-size: 1.2em;
   display: block;
+}
+.song-actions {
+  margin-top: 3px;
+}
+.song-actions i {
+
+  font-size: 20px !important;
+  line-height: 22px !important;
+}
+.play-controls i {
+
+  font-size: 40px !important;
+  line-height: 60px !important;
+  margin-left: 5px;
 }
 #years {
   a {
@@ -357,6 +374,9 @@
   display:inline;
 }
 
+.collect {
+  display:inline;
+}
 
 .footer {
   background-color: #292c2f;
@@ -456,7 +476,25 @@
     .footer .contact {
       text-align: left; }
       .footer .contact > i {
-        margin-right: 1rem; } }
+        margin-right: 1rem; }
+
+
+  }
+
+  @media only screen and (max-width: 40em) {
+
+    #player {
+      height: 120px;
+    }
+    .play-controls i {
+
+      font-size: 40px !important;
+      line-height: 40px !important;
+      margin-right: 0px;
+    }
+
+  }
+
 
 
 #band-list {

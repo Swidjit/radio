@@ -2,22 +2,39 @@
 #player
   #song
   .row
-    .large-12.columns
-      .song-controls
-        .play
-          %i.fi-play
-        .pause
-          %i.fi-pause
-        .fast-forward
-          %i.fi-fast-forward
-      .song-info
-        .song-title
-        .song-time
-        .song-show msg in 2013-23-45
-      .play-controls.right
+    .large-10.columns
+      .row
+        .large-12.columns
+          .song-info.left
+            .song-title
+            .song-time
+            .song-show msg in 2013-23-45
+
+      .row
+        .large-12.columns
+
+          .song-controls.left
+            .play
+              %i.fi-play
+            .pause
+              %i.fi-pause
+            .fast-forward
+              %i.fi-fast-forward
+          .song-actions.right
+            -if user_signed_in?
+              %i.fi-star.radio
+              %i.fi-like
+              %i.fi-heart
+              %i.fi-share
+              .collect{:'data-song-id'=>''}
+                %i.fi-folder
+    .large-2.columns{:style => 'background-color:#835B9F;height:60px;'}
+      .play-controls.text-center
         %i.fi-shuffle.shuffle
         %i.fi-refresh.refresh
-        %i.fi-star.radio
+        -if user_signed_in?
+          %i.fi-list.playlists
+
 
 
 
