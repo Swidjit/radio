@@ -204,4 +204,13 @@ namespace :init do
 
   end
 
+  task :set_band_years => :environment do
+    Band.all.each do |band|
+      years = band.shows.order(year: :asc).pluck(:year)
+      years = years.uniq
+      band.years = years
+      band.save
+    end
+  end
+
 end
