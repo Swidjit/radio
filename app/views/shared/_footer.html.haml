@@ -65,29 +65,36 @@
         =link_to new_user_registration_path, :class=>'button' do
           Sign Up
   %a.close-reveal-modal ×
+-if user_signed_in?
+  #collect.reveal-modal{"data-reveal" => ""}
+    %h3 add to playlist
+    .row
+      .large-5.columns
+        %h4 Add to existing playlist
+        =form_tag add_song_playlists_path, :method=>:post, :remote=>:true do |f|
+          =hidden_field_tag :song_id, '',:class => 'song-id'
+          %label playlist
+          =select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :title), :prompt => 'choose playlist'
+          =submit_tag "Add", :class => "button"
+      .large-7.columns
+        %h4 Add to a new collection
+        =form_for Playlist.new, :url => user_playlists_path(current_user), :method=>:post, :remote=>:true do |f|
+          =hidden_field_tag :song_id, '',:class => 'song-id'
+          %label Name your playlist
+          =f.text_field :title
+          %label Describe your playlist
+          =f.text_area :description
+          =f.submit "Add to New", :class => "button"
 
-#collect.reveal-modal{"data-reveal" => ""}
-  %h3 add to playlist
-  .row
-    .large-5.columns
-      %h4 Add to existing playlist
-      =form_tag add_song_playlists_path, :method=>:post, :remote=>:true do |f|
-        =hidden_field_tag :song_id, '',:class => 'song-id'
-        %label playlist
-        =select_tag :playlist_id, options_from_collection_for_select(current_user.playlists, :id, :title), :prompt => 'choose playlist'
-        =submit_tag "Add", :class => "button"
-    .large-7.columns
-      %h4 Add to a new collection
-      =form_for Playlist.new, :url => user_playlists_path(current_user), :method=>:post, :remote=>:true do |f|
-        =hidden_field_tag :song_id, '',:class => 'song-id'
-        %label Name your playlist
-        =f.text_field :title
-        %label Describe your playlist
-        =f.text_area :description
-        =f.submit "Add to New", :class => "button"
+    %a.close-reveal-modal ×
+  :javascript
+    $(document).on('click','.playlists',function() {
+      $('#show-list').html('#{j render current_user.playlists}');
+      $("html, body").animate({
+       scrollTop:0
+       },"fast");
 
-  %a.close-reveal-modal ×
-
+    });
 
 #new-post.reveal-modal{"data-reveal" => ""}
   #form
@@ -359,13 +366,7 @@
     }
 
   });
-  $(document).on('click','.playlists',function() {
-    $('#show-list').html('#{j render current_user.playlists}');
-    $("html, body").animate({
-     scrollTop:0
-     },"fast");
 
-  });
 
   $( document ).on( 'click', '.collect', function () {
     var id = $(this).data('song-id');
