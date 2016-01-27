@@ -14,7 +14,7 @@ class SongsController < ApplicationController
 
   def shuffle
 
-    @song=Song.where.not('lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ?','%intro%','%tuning%','%crowd%','%banter%','%jam%').order("RANDOM()").first
+    @song=Song.music.order("RANDOM()").first
     @comments = @song.comment_threads.order('created_at desc')
     @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
     @similar = @song.song_group.songs
@@ -30,8 +30,8 @@ class SongsController < ApplicationController
       choices += Array.new(v.frequency,v.song_group_id)
       bad_songs << v.song_group_id if v.frequency == 0
     end
-    choices += SongGroup.order('RANDOM()').limit(50).pluck(:id)
-    choices += SongGroup.order(importance: :desc).limit(250).pluck(:id)
+    choices += SongGroup.music.order('RANDOM()').limit(50).pluck(:id)
+    choices += SongGroup.music.order(importance: :desc).limit(250).pluck(:id)
 
     choices = choices - bad_songs
     num = rand(choices.length-1)
@@ -103,7 +103,7 @@ class SongsController < ApplicationController
 
   def index
     @top_songs = SongGroup.order(importance: :desc).limit(50)
-    @top_jams = Song.order(importance: :desc).limit(500)
+    @top_jams = Song.music.order(importance: :desc).limit(500)
     @total_pages = (@top_jams.length / 30) + 1
 
     shows = @top_jams.pluck(:id)
