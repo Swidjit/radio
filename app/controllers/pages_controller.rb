@@ -13,7 +13,7 @@ class PagesController < ApplicationController
       @favorite_songs = Song.where('importance > 0').order(importance: :desc).limit(25)
       @favorite_shows = Show.order(importance: :desc).limit(25)
     elsif params[:page_name]=='explore'
-      c = Song.all.pluck(:id)
+      c = Song.music.pluck(:id)
       random_ids = c.sort_by { rand }.slice(0, 13)
       @random_songs = Song.find(random_ids)
       @new_shows = Show.order(created_at: :desc).limit(25)

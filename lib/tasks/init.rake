@@ -60,7 +60,7 @@ namespace :init do
         index = show["title"].match(/(\d{4})-(\d{2})-(\d{2})/)
         dates = index.to_s.split('-')
         puts index
-        if (dates[1].to_i <= 12 && dates[2].to_i <= 31)
+        if (dates[1].to_i <= 12 && dates[1].to_i > 0 && dates[2].to_i <= 31 && dates[2].to_i > 0)
           puts 'in'
           puts dates[1]
           puts dates[2]

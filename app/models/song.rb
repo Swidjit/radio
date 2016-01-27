@@ -7,6 +7,7 @@ class Song < ActiveRecord::Base
   acts_as_commentable
   validates_uniqueness_of :title, scope: [:show_id, :track_num]
   default_scope { order(track_num: :asc) }
+  scope :music, -> {where.not('lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ?','%intro%','%tuning%','%crowd%','%banter%','%jam%')}
 
 
 
