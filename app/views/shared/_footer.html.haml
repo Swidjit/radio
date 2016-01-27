@@ -172,25 +172,34 @@
   $(document).on('click', '.fast-forward', function() {
     forwardAudio();
   });
+
+  $(document).on('click', '.next', function() {
+    chooseNextSong();
+  });
   document.addEventListener('ended', function(e){
     if($(e.target).is('audio')){
-      if(mode == "shuffle") {
-        $.get('/songs/shuffle');
-      }
-      else if(mode == "radio") {
-        $.get('/songs/radio');
-      }
-      else if(mode == "playlist"){
-        current_track += 1;
-
-        nextPlaylistSong();
-      }
-      else if(mode == "show"){
-        current_track += 1;
-        nextShowSong();
-      }
+      chooseNextSong();
     }
   }, true);
+
+  function chooseNextSong() {
+    if(mode == "shuffle") {
+      $.get('/songs/shuffle');
+    }
+    else if(mode == "radio") {
+      $.get('/songs/radio');
+    }
+    else if(mode == "playlist"){
+      current_track += 1;
+
+      nextPlaylistSong();
+    }
+    else if(mode == "show"){
+      current_track += 1;
+      nextShowSong();
+    }
+
+  }
 
   function nextShowSong() {
     if(filenames[show_id]) {
