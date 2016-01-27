@@ -24,5 +24,7 @@ $('#player .song-time').html(m+":"+s);
 
 }, false);
 
-
+$( document ).on( 'click', '.expand-song', function () {
+$('#song-col').html('#{j render @song}');
+});
 

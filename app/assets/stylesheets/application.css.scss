@@ -272,6 +272,13 @@
   line-height: 60px !important;
   margin-left: 5px;
 }
+
+.expand-song {
+  cursor:pointer;
+}
+.expand-song:hover {
+  text-decoration:underline;
+}
 #years {
   a {
     font-size: 1.3em;
