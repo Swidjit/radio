@@ -103,6 +103,20 @@ class SongsController < ApplicationController
 
   def index
     @top_songs = SongGroup.order(importance: :desc).limit(50)
-    @top_jams = Song.order(importance: :desc).limit(50)
+    @top_jams = Song.order(importance: :desc).limit(500)
+    @total_pages = (@top_jams.length / 30) + 1
+
+    shows = @top_jams.pluck(:id)
+    if params.has_key?(:page)  && params[:page].to_i > 0
+      offset = (params[:page].to_i-1) * 30
+      ids = shows[offset..offset+29]
+      @top_jams = Song.where('id in (?)',ids).order(importance: :desc)
+      render :partial => 'songs/song_small', :collection => @top_jams, :as => :song
+    else
+
+      offset = 0
+      ids = shows[offset..offset+29]
+      @top_jams = Song.where('id in (?)',ids).order(importance: :desc)
+    end
   end
 end

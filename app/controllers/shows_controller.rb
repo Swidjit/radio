@@ -8,7 +8,7 @@ class ShowsController < ApplicationController
   def load_shows
     if request.xhr?
       if params.has_key?(:year)
-        @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc)
+        @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc).include(:songs, :reactions)
         @band = Band.find(params[:band_id])
         render 'load_shows'
       end
@@ -67,7 +67,21 @@ class ShowsController < ApplicationController
   end
 
   def index
-    @shows = Show.order(importance: :desc).limit(100)
+    @shows = Show.order(importance: :desc).limit(500)
+    @total_pages = (@shows.length / 15) + 1
+
+    shows = @shows.pluck(:id)
+    if params.has_key?(:page)  && params[:page].to_i > 0
+      offset = (params[:page].to_i-1) * 15
+      ids = shows[offset..offset+14]
+      @shows = Show.where('id in (?)',ids).order(created_at: :desc)
+      render :partial => @shows
+    else
+
+      offset = 0
+      ids = shows[offset..offset+14]
+      @shows = Show.where('id in (?)',ids).order(created_at: :desc)
+    end
   end
 
 

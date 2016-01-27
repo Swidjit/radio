@@ -2,7 +2,8 @@
   .show-title=show.title
 
   .show-songs
-    -show.songs.each do |song|
+    -songs = show.songs
+    -songs.each do |song|
       .song-listing
         .song-track [#{song.track_num}]
         .play-song.song-name{:origin => 'show',:track=>song.track_num,:filename=>song.filename, :song_id=>song.id,:title=>song.title, :show_id=>song.show.identifier}
@@ -24,8 +25,8 @@
           .count=show.reactions.shared.size
 
 :javascript
-  filenames["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:filename).to_json}" );
-  song_names["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:title).to_json}" );
+  filenames["#{show.identifier}"] = JSON.parse( "#{j songs.pluck(:filename).to_json}" );
+  song_names["#{show.identifier}"] = JSON.parse( "#{j songs.pluck(:title).to_json}" );
   song_shows["#{show.identifier}"] = JSON.parse( "#{j show.title.to_json}" );
-  song_ids["#{show.identifier}"] = JSON.parse( "#{j show.songs.pluck(:id).to_json}" );
+  song_ids["#{show.identifier}"] = JSON.parse( "#{j songs.pluck(:id).to_json}" );
 

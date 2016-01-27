@@ -1,5 +1,7 @@
 .row
   #show-list.large-12.columns
     =render @shows
+    =pageless(@total_pages, shows_path, '#show-list')
 
   #song-col
+

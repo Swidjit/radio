@@ -4,6 +4,7 @@
       #show-list.large-6.medium-6.columns
         %h4 Specific Jams
         =render :partial => 'song_small', :collection => @top_jams, :as=>:song
+        =pageless(@total_pages, songs_path, '#show-list')
       #song-col.large-6.medium-6.columns
         %h4 General Favorites
         =render :partial => 'song_groups/song_group_small', :collection => @top_songs, :as=>:song_group
