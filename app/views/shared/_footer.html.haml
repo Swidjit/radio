@@ -304,7 +304,7 @@
       mode = "radio";
       $(this).addClass('selected');
     }
-
+    console.log(mode);
   });
   $(document).on('click','.refresh',function() {
     $.get('/songs/shuffle');

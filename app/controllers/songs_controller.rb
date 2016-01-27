@@ -24,9 +24,24 @@ class SongsController < ApplicationController
   end
 
   def radio
-    rand = Random.new
-    offset = rand(Reaction.where(:user=>current_user).count)
-    @song=Song.where('id in (?)',Reaction.where(:user=>current_user).pluck(:post_id)).offset(offset).first
+    choices = []
+    bad_songs = []
+    current_user.song_votes.each do |v|
+      choices += Array.new(v.frequency,v.song_group_id)
+      bad_songs << v.song_group_id if v.frequency == 0
+    end
+    choices += SongGroup.order('RANDOM()').limit(50).pluck(:id)
+    choices += SongGroup.order(importance: :desc).limit(250).pluck(:id)
+
+    choices = choices - bad_songs
+    num = rand(choices.length-1)
+    id = choices[num]
+    song_group = SongGroup.find(id)
+
+    song_id = song_group.songs.offset(rand(song_group.songs.length-1)).first.id
+    @song = Song.find(song_id)
+
+
     @comments = @song.comment_threads.order('created_at desc')
     @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
     @similar = @song.song_group.songs

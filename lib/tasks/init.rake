@@ -122,4 +122,86 @@ namespace :init do
 
   end
 
+
+  task :import_band, [:band_name] => :environment  do |t, args|
+    require 'httparty'
+    require 'json'
+    puts args
+    puts args.band_name
+    band = Band.find_by_collection(args.band_name)
+
+    url = 'https://archive.org/advancedsearch.php?q=collection%3A%28'+band.collection+'%29&fl%5B%5D=collection&fl%5B%5D=description&fl%5B%5D=format&fl%5B%5D=identifier&fl%5B%5D=subject&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=10000&page=1&output=json#raw'
+    uri = URI(url)
+    require 'httparty'
+    response = HTTParty.get(uri)
+    data = response.parsed_response
+
+    songs = []
+    tracks = []
+    data["response"]["docs"].each do |show|
+      index = show["title"].match(/(\d{4})-(\d{2})-(\d{2})/)
+      dates = index.to_s.split('-')
+      puts index
+      if (dates[1].to_i <= 12 && dates[1].to_i > 0 && dates[2].to_i <= 31 && dates[2].to_i > 0)
+        puts 'in'
+        puts dates[1]
+        puts dates[2]
+        year = dates[0]
+
+        index = index.to_s+'T04:05:06+07:00'
+
+        identifier = show["identifier"]
+        show["description"].present? ? desc = show["description"] : desc='No description'
+
+        #save the show
+        @show=Show.create(:band=> band, :date=>DateTime.rfc3339(index), :year => year,:title=>show["title"], :identifier => identifier, :description => desc)
+        if @show.valid?
+          url = 'http://archive.org/metadata/'+identifier
+          uri = URI(url)
+          response = Net::HTTP.get(uri)
+          song_data = JSON.parse(response)
+          #.sort_by { |hash| hash['track'].to_i }
+          #data = data.collect{ |hash| hash if hash['format']=='VBR MP3'}
+          songs = []
+          tracks = []
+          if song_data["files"].present?
+            song_data["files"].each do |data|
+              if data["track"].to_i > 0 && data["format"]=='VBR MP3'
+                if tracks.include?(data["track"].to_i)
+
+                else
+                  tracks<< data["track"].to_i
+                  songs << data
+                end
+              end
+
+            end
+          end
+
+          songs = songs.sort_by {|song| song['track'].to_i}
+
+          songs.each do |s|
+            if s['title']
+              s['title'] = s['title'].gsub(/[^\w\s]/,'')
+              @song = Song.create(:track_num => s['track'].to_i, :filename => s['name'], :title => s['title'], :length => s['length'], :band_id => band.id)
+              @show.songs << @song
+              t = s['title'].gsub(/[^\w,'&\s]/,'')
+              group = SongGroup.where('lower(title) = ?',t.downcase).where(:band_id => band.id).first
+              if group.present?
+                group.increment!(:count)
+                group.songs << @song
+              else
+                group=SongGroup.create(:title=>t,:count=>1, :band_id => band.id)
+                group.songs << @song
+              end
+            end
+          end
+        end
+      end
+
+    end
+
+
+  end
+
 end
