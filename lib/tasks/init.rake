@@ -13,6 +13,20 @@ namespace :init do
     Band.create(:id=>10,:name=>"Max Creek",:description=>"", :collection => 'MaxCreek')
     Band.create(:id=>11,:name=>"Yonder Mountain String Band",:description=>"", :collection => 'YonderMountainStringBand')
     Band.create(:id=>12,:name=>"Lotus",:description=>"", :collection => 'Lotus')
+    Band.create(:id=>13,:name=>"Furthur",:description=>"", :collection => 'Furthur')
+    Band.create(:id=>14,:name=>"Bob Weir",:description=>"", :collection => 'BobWeir')
+    Band.create(:id=>15,:name=>"BelaFleck",:description=>"", :collection => 'BelaFleckandtheFlecktones')
+    Band.create(:id=>16,:name=>"TheRadiators",:description=>"", :collection => 'Radiators')
+    Band.create(:id=>17,:name=>"Steve Kimock Band",:description=>"", :collection => 'SteveKimockBand')
+    Band.create(:id=>18,:name=>"Tea Leaf Green",:description=>"", :collection => 'TeaLeafGreen')
+    Band.create(:id=>19,:name=>"Strangefolk",:description=>"", :collection => 'Strangefolk')
+    Band.create(:id=>20,:name=>"Greensky Bluegrass",:description=>"", :collection => 'GreenskyBluegrass')
+    Band.create(:id=>21,:name=>"Big Mean Sound Machine",:description=>"", :collection => 'BigMeanSoundMachine')
+    Band.create(:id=>22,:name=>"EOTO",:description=>"", :collection => 'EOTOband')
+    Band.create(:id=>23,:name=>"STS9",:description=>"", :collection => 'SoundTribeSector9')
+    Band.create(:id=>24,:name=>"Big Gigantic",:description=>"", :collection => 'BigGigantic')
+    Band.create(:id=>25,:name=>"Zoogma",:description=>"", :collection => 'Zoogma')
+    Band.create(:id=>27,:name=>"FiKus",:description=>"", :collection => 'FiKus')
 
 
 
@@ -34,7 +48,7 @@ namespace :init do
     Song.delete_all
     SongGroup.delete_all
     Band.all.each do |band|
-      url = 'https://archive.org/advancedsearch.php?q=collection%3A%28'+band.collection+'%29&fl%5B%5D=collection&fl%5B%5D=description&fl%5B%5D=format&fl%5B%5D=identifier&fl%5B%5D=subject&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=100&page=1&output=json#raw'
+      url = 'https://archive.org/advancedsearch.php?q=collection%3A%28'+band.collection+'%29&fl%5B%5D=collection&fl%5B%5D=description&fl%5B%5D=format&fl%5B%5D=identifier&fl%5B%5D=subject&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=10000&page=1&output=json#raw'
       uri = URI(url)
       require 'httparty'
       response = HTTParty.get(uri)
