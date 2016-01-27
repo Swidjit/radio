@@ -14,23 +14,13 @@ class SongsController < ApplicationController
 
   def shuffle
 
-    @song=Song.order("RANDOM()").first
+    @song=Song.where.not('lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ? OR lower(title) LIKE ?','%intro%','%tuning%','%crowd%','%banter%','%jam%').order("RANDOM()").first
     @comments = @song.comment_threads.order('created_at desc')
     @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
     @similar = @song.song_group.songs
     @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
     History.create(:resource_type=>'Song',:resource_id => @song.id, :user=>current_user) if user_signed_in?
     render 'shuffle'
-  end
-
-  def begin
-
-    @song=Song.order("RANDOM()").first
-    @comments = @song.comment_threads.order('created_at desc')
-    @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
-    @similar = @song.song_group.songs
-    @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
-    History.create(:resource_type=>'Song',:resource_id => @song.id, :user=>current_user) if user_signed_in?
   end
 
   def radio
