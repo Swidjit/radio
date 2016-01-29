@@ -147,7 +147,7 @@
   });
 
   $(document).on('click', '.play-song', function() {
-    $('#player').show();
+
     current_track = parseInt($(this).attr("track"))-1;
     show_id = $(this).attr("show_id");
     origin = $(this).attr('origin');
@@ -167,12 +167,12 @@
   });
 
   $(document).on('click', '.pause', function() {
-    current_song.pause();
+    current_song.audio.pause();
     $('#player .play').show();
     $('#player .pause').hide();
   });
   $(document).on('click', '.play', function() {
-    current_song.play();
+    current_song.audio.play();
     $('#player .play').hide();
     $('#player .pause').show();
   });
@@ -183,16 +183,13 @@
   $(document).on('click', '.next', function() {
     chooseNextSong();
   });
-  document.addEventListener('ended', function(e){
-    console.log('dddd');
-    if($(e.target).is('audio')){
-      chooseNextSong();
-    }
-  }, true);
+
 
   function chooseNextSong() {
     if(mode == "shuffle") {
-      $.get('/songs/shuffle');
+      $.get('/songs/shuffle', function(e) {
+
+      });
     }
     else if(mode == "radio") {
       $.get('/songs/radio');
@@ -417,6 +414,46 @@
     this.audio.src = url;
     this.audio.play();
   };
-  AudioTagSample.prototype.update = function(url) {
-    console.log('wombat');
-  };
+
+
+  window.addEventListener('mousedown', startSong);
+
+  function startSong() {
+    console.log('ney');
+    current_song = new AudioTagSample();
+    current_song.play('');
+    window.removeEventListener('mousedown', startSong);
+  }
+
+  function play(src) {
+    if(current_song){
+      current_song.audio.src = '';
+    }
+
+    current_song = new AudioTagSample();
+    current_song.play(src);
+    $('#output').html(current_song.audio.src);
+
+    current_song.audio.addEventListener("timeupdate", function() {
+    var duration = parseInt( current_song.audio.duration ),
+    currentTime = parseInt( current_song.audio.currentTime ),
+    timeLeft = duration - currentTime,
+    s, m;
+
+
+    s = timeLeft % 60;
+    m = Math.floor( timeLeft / 60 ) % 60;
+
+    s = s < 10 ? "0"+s : s;
+    m = m < 10 ? "0"+m : m;
+
+    $('#player .song-time').html(m+":"+s);
+
+    }, false);
+
+    current_song.audio.addEventListener('ended', function(e){
+    if($(e.target).is('audio')){
+    chooseNextSong();
+    }
+    }, true);
+  }

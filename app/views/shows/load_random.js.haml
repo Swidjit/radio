@@ -1,5 +1,6 @@
 $('#show-list').html('#{j render @show}');
 $('#show-list .show-songs').toggle();
+$('#player').show();
 if(current_song){
 current_song.audio.src='';
 }
