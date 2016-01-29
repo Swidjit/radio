@@ -24,9 +24,4 @@
           %i.fi-share
           .count=show.reactions.shared.size
 
-:javascript
-  filenames["#{show.identifier}"] = JSON.parse( "#{j songs.pluck(:filename).to_json}" );
-  song_names["#{show.identifier}"] = JSON.parse( "#{j songs.pluck(:title).to_json}" );
-  song_shows["#{show.identifier}"] = JSON.parse( "#{j show.title.to_json}" );
-  song_ids["#{show.identifier}"] = JSON.parse( "#{j songs.pluck(:id).to_json}" );
 
