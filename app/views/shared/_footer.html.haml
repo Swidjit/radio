@@ -184,6 +184,7 @@
     chooseNextSong();
   });
   document.addEventListener('ended', function(e){
+    console.log('dddd');
     if($(e.target).is('audio')){
       chooseNextSong();
     }
@@ -307,6 +308,7 @@
     console.log(mode);
   });
   $(document).on('click','.refresh',function() {
+    console.log('refresgh');
     $.get('/songs/shuffle');
 
   });
@@ -381,7 +383,7 @@
     // Check for audio element support.
     if (window.HTMLAudioElement) {
       try {
-        current_song.currentTime += 30.0;
+        current_song.audio.currentTime += 30.0;
       }
       catch (e) {
         // Fail silently but show in F12 developer tools console
@@ -389,3 +391,32 @@
       }
     }
   }
+
+
+  function AudioTagSample() {
+    // Create a new <audio> tag.
+    this.audio = new Audio();
+
+    // Note: the audio graph must be connected after the page is loaded.
+    // Otherwise, the Audio tag just plays normally and ignores the audio
+    // context. More info: crbug.com/112368
+    window.addEventListener('load', this.onload.bind(this), false);
+  }
+
+  AudioTagSample.prototype.onload = function() {
+    // Create the audio nodes.
+    this.source = context.createMediaElementSource(this.audio);
+
+
+    // Connect the audio graph.
+    this.source.connect(this.filter);
+    this.filter.connect(context.destination);
+  };
+
+  AudioTagSample.prototype.play = function(url) {
+    this.audio.src = url;
+    this.audio.play();
+  };
+  AudioTagSample.prototype.update = function(url) {
+    console.log('wombat');
+  };

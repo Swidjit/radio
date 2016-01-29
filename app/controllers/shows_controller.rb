@@ -8,7 +8,7 @@ class ShowsController < ApplicationController
   def load_shows
     if request.xhr?
       if params.has_key?(:year)
-        @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc).include(:songs, :reactions)
+        @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc)
         @band = Band.find(params[:band_id])
         render 'load_shows'
       end
