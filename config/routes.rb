@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     post 'reaction'
     get 'load_group'
     collection do
-      get 'load/:filename' => 'songs#show'
+      get 'load' => 'songs#show'
       get 'shuffle'
       get 'radio'
       get 'group/:title' => 'songs#load_group'

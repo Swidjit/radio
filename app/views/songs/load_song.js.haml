@@ -1,41 +1,6 @@
 $('#song-col').html('#{j render @song}');
-$('#player').show();
-if(current_song){
-current_song.audio.src='';
-}
-
-$('#player .song-title').html('#{@song.title}');
-$('#player .song-show').html('#{@song.show.title}');
-
 
 $( document ).on( 'click', '.expand-song', function () {
 $('#song-col').html('#{j render @song}');
 });
 
-current_song = new AudioTagSample();
-current_song.play('#{@src}');
-
-current_song.audio.addEventListener("timeupdate", function() {
-console.log('hye');
-var duration = parseInt( current_song.audio.duration ),
-currentTime = parseInt( current_song.audio.currentTime ),
-timeLeft = duration - currentTime,
-s, m;
-
-
-s = timeLeft % 60;
-m = Math.floor( timeLeft / 60 ) % 60;
-
-s = s < 10 ? "0"+s : s;
-m = m < 10 ? "0"+m : m;
-
-$('#player .song-time').html(m+":"+s);
-
-}, false);
-
-current_song.audio.addEventListener('ended', function(e){
-console.log('dddd');
-if($(e.target).is('audio')){
-chooseNextSong();
-}
-}, true);

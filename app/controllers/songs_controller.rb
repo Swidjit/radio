@@ -2,7 +2,7 @@ class SongsController < ApplicationController
 
   def show
     if request.xhr?
-      @song = Song.find(params[:filename])
+      @song = Song.find_by_filename(params[:filename])
       @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
       @comments = @song.comment_threads.order('created_at desc')
       @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
@@ -14,13 +14,12 @@ class SongsController < ApplicationController
 
   def shuffle
 
-    @song=Song.music.order("RANDOM()").first
-    @comments = @song.comment_threads.order('created_at desc')
-    @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
-    @similar = @song.song_group.songs
-    @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
-    History.create(:resource_type=>'Song',:resource_id => @song.id, :user=>current_user) if user_signed_in?
-    render 'shuffle'
+    @songs=Song.music.order("RANDOM()").limit(5)
+    @song_info = []
+    @songs.each do |song|
+      @song_info << {:name=>song.title, :show=>song.show.title, :show_id => song.show.identifier, :filename => song.filename}
+    end
+    render :json => @song_info.to_json
   end
 
   def radio
@@ -32,21 +31,19 @@ class SongsController < ApplicationController
     end
     choices += SongGroup.music.order('RANDOM()').limit(50).pluck(:id)
     choices += SongGroup.music.order(importance: :desc).limit(250).pluck(:id)
-
+    @song_info=[]
     choices = choices - bad_songs
-    num = rand(choices.length-1)
-    id = choices[num]
-    song_group = SongGroup.find(id)
+    for i in 1..5 do
+      num = rand(choices.length-1)
+      id = choices[num]
+      song_group = SongGroup.find(id)
 
-    song_id = song_group.songs.offset(rand(song_group.songs.length-1)).first.id
-    @song = Song.find(song_id)
+      song_id = song_group.songs.offset(rand(song_group.songs.length-1)).first.id
+      song = Song.find(song_id)
+      @song_info << {:name=>song.title, :show=>song.show.title, :show_id => song.show.identifier, :filename => song.filename}
 
-
-    @comments = @song.comment_threads.order('created_at desc')
-    @new_comment = Comment.build_from(@song, current_user.id, "") if user_signed_in?
-    @similar = @song.song_group.songs
-    @src = "https://archive.org/download/#{@song.show.identifier}/#{@song.filename}"
-    render 'shuffle'
+    end
+    render :json => @song_info.to_json
   end
 
   def load_group
