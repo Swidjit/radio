@@ -1,3 +1,4 @@
+#gapless5-block
 %footer.footer
   .row
     .small-12.medium-6.large-3.columns
@@ -118,6 +119,13 @@
   var playlist;
   var show;
   var current_track;
+
+  var player = new Gapless5("gapless5-block", {
+    loop: true,
+    mapKeys: {prev: "a", playpause: "s", stop: "d", next: "f"}
+  });
+  console.log(player);
+
   $('#login-button').on('click', function() {
     var data = {
       user: {login: $('#login-username').val(), password: $('#login-password').val(), remember_me: '1'}
@@ -147,31 +155,50 @@
 
   $(document).on('click', '.play-song', function() {
 
+    $('#player').show();
     origin = $(this).attr('origin');
     if(origin=='show' && mode != 'radio') {
       mode = 'show';
       console.log(mode);
       current_track = parseInt($(this).attr("track"))-1;
       show = $(this).closest('.show');
+      tracks = [];
+      $.each(show.find('.play-song'), function(i,val) {
+        if(i >= current_track) {
+          console.log(player.tracks.length);
+          tracks.push('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+
+        }
+      });
+      player.stop();
+      player = new Gapless5("gapless5-block", {
+        tracks: tracks,
+        loop: true,
+        mapKeys: {prev: "a", playpause: "s", stop: "d", next: "f"}
+      });
+      player.play();
     }
     else if(origin=='playlist') {
       mode = 'playlist';
       current_track = parseInt($(this).attr("track"));
       playlist = $(this).closest('.playlist');
     }
+    else {
+      player.replaceTrack(0,'https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
 
-    $('#player').show();
-    play($(this).attr("show_id"),$(this).attr("filename"));
+      console.log(player);
+      player.play();
+    }
 
   });
 
   $(document).on('click', '.pause', function() {
-    current_song.audio.pause();
+    player.pause();
     $('#player .play').show();
     $('#player .pause').hide();
   });
   $(document).on('click', '.play', function() {
-    current_song.audio.play();
+    player.play();
     $('#player .play').hide();
     $('#player .pause').show();
   });
@@ -180,7 +207,7 @@
   });
 
   $(document).on('click', '.next', function() {
-    chooseNextSong();
+    player.next();
   });
 
 
@@ -324,11 +351,7 @@
     }
     console.log(mode);
   });
-  $(document).on('click','.refresh',function() {
-    console.log('refresgh');
-    $.get('/songs/shuffle');
 
-  });
 
   $(document).on('click','.band',function() {
     band_id = $(this).attr('band_id')
@@ -387,6 +410,7 @@
   });
 
 
+
   $( document ).on( 'click', '.collect', function () {
     var id = $(this).data('song-id');
     $('#collect .song-id').val(id);
@@ -395,92 +419,21 @@
 
 
 
-  function forwardAudio() {
-
-    // Check for audio element support.
-    if (window.HTMLAudioElement) {
-      try {
-        current_song.audio.currentTime += 30.0;
-      }
-      catch (e) {
-        // Fail silently but show in F12 developer tools console
-        if(window.console && console.error("Error:" + e));
-      }
-    }
-  }
+  current_song.audio.addEventListener("timeupdate", function() {
+  var duration = parseInt( current_song.audio.duration ),
+  currentTime = parseInt( current_song.audio.currentTime ),
+  timeLeft = duration - currentTime,
+  s, m;
 
 
-  function AudioTagSample() {
-    // Create a new <audio> tag.
-    this.audio = new Audio();
+  s = timeLeft % 60;
+  m = Math.floor( timeLeft / 60 ) % 60;
 
-    // Note: the audio graph must be connected after the page is loaded.
-    // Otherwise, the Audio tag just plays normally and ignores the audio
-    // context. More info: crbug.com/112368
-    window.addEventListener('load', this.onload.bind(this), false);
-  }
+  s = s < 10 ? "0"+s : s;
+  m = m < 10 ? "0"+m : m;
 
-  AudioTagSample.prototype.onload = function() {
-    // Create the audio nodes.
-    this.source = context.createMediaElementSource(this.audio);
+  $('#player .song-time').html(m+":"+s);
+
+  }, false);
 
 
-    // Connect the audio graph.
-    this.source.connect(this.filter);
-    this.filter.connect(context.destination);
-  };
-
-  AudioTagSample.prototype.play = function(url) {
-    this.audio.src = url;
-    this.audio.play();
-  };
-
-
-  window.addEventListener('mousedown', startSong);
-
-  function startSong() {
-    console.log('init audio');
-    current_song = new AudioTagSample();
-    current_song.play('test');
-    window.removeEventListener('mousedown', startSong);
-  }
-
-  function play(show, song) {
-    if(!current_song.audio.paused) {
-      current_song.audio.src = '';
-      current_song = new AudioTagSample();
-      current_song.play('https://archive.org/download/'+show+'/'+song);
-    }
-    else {
-      console.log('as;ldk');
-      console.log(show, song);
-
-      current_song.play('https://archive.org/download/'+show+'/'+song);
-    }
-
-
-    $('#output').html(current_song.audio.src);
-
-    current_song.audio.addEventListener("timeupdate", function() {
-    var duration = parseInt( current_song.audio.duration ),
-    currentTime = parseInt( current_song.audio.currentTime ),
-    timeLeft = duration - currentTime,
-    s, m;
-
-
-    s = timeLeft % 60;
-    m = Math.floor( timeLeft / 60 ) % 60;
-
-    s = s < 10 ? "0"+s : s;
-    m = m < 10 ? "0"+m : m;
-
-    $('#player .song-time').html(m+":"+s);
-
-    }, false);
-
-    current_song.audio.addEventListener('ended', function(e){
-    if($(e.target).is('audio')){
-    chooseNextSong();
-    }
-    }, true);
-  }
