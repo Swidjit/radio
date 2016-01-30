@@ -119,13 +119,25 @@
   var playlist;
   var show;
   var current_track;
-
+  var queue= [];
   var player = new Gapless5("gapless5-block", {
-    loop: true,
+    loop: false,
     mapKeys: {prev: "a", playpause: "s", stop: "d", next: "f"}
   });
   console.log(player);
 
+  player.onnext = function() {
+
+  };
+  player.onfinishedall = function() {
+  console.log('done');
+  };
+  player.onfinishedtrack = function() {
+    filename = player.tracks[1].split('/');
+
+    $('#player .song-title').html(filenames[filename[filename.length-1]].song);
+    $('#player .song-show').html(filenames[filename[filename.length-1]].show);
+  };
   $('#login-button').on('click', function() {
     var data = {
       user: {login: $('#login-username').val(), password: $('#login-password').val(), remember_me: '1'}
@@ -157,39 +169,62 @@
 
     $('#player').show();
     origin = $(this).attr('origin');
+    filenames = [];
     if(origin=='show' && mode != 'radio') {
       mode = 'show';
-      console.log(mode);
+
       current_track = parseInt($(this).attr("track"))-1;
       show = $(this).closest('.show');
-      tracks = [];
-      $.each(show.find('.play-song'), function(i,val) {
-        if(i >= current_track) {
-          console.log(player.tracks.length);
-          tracks.push('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+      loadShowIntoPlayer();
 
-        }
-      });
-      player.stop();
-      player = new Gapless5("gapless5-block", {
-        tracks: tracks,
-        loop: true,
-        mapKeys: {prev: "a", playpause: "s", stop: "d", next: "f"}
-      });
-      player.play();
+
     }
     else if(origin=='playlist') {
       mode = 'playlist';
       current_track = parseInt($(this).attr("track"));
       playlist = $(this).closest('.playlist');
-    }
-    else {
-      player.replaceTrack(0,'https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+      tracks = [];
+      queue = [];
+      player.stop();
+      player.removeAllTracks();
 
-      console.log(player);
+      $.each(playlist.find('.play-song'), function(i,val) {
+        if(i >= current_track) {
+          if(i < (current_track+2)) {
+            player.addTrack('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+          }
+          else {
+            queue.push('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+          }
+        }
+        if(i==current_track) {
+          $('#player .song-title').html($(this).attr('title'));
+          $('#player .song-show').html($(this).attr('show'));
+        }
+        filenames[$(this).attr('filename')] = {'show':$(this).attr('show'),'song':$(this).attr('title')};
+      });
       player.play();
     }
+    else {
+      player.stop();
+      player.removeAllTracks();
+      player.addTrack('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+      mode="shuffle";
+      player.play();
+      $('#player .song-title').html($(this).attr('title'));
+      $('#player .song-show').html($(this).attr('show'));
+    }
 
+    $('#player .play').hide();
+    $('#player .pause').show();
+    $('#show-list').removeClass('large-12 large-6');
+    $('#show-list').removeClass('medium-12 medium-6');
+    $('#show-list').addClass('large-6');
+    $('#show-list').addClass('medium-6');
+
+    $("html, body").animate({
+     scrollTop:0
+     },"fast");
   });
 
   $(document).on('click', '.pause', function() {
@@ -203,26 +238,47 @@
     $('#player .pause').show();
   });
   $(document).on('click', '.fast-forward', function() {
-    forwardAudio();
+
   });
 
   $(document).on('click', '.next', function() {
-    player.next();
+
+    nextSong();
+
   });
 
+  function nextSong() {
+    player.stop();
+    if(player.tracks.length <= 2) {
+      $.each(queue.slice(0,2), function(i,val) {
+        player.addTrack(val);
+      });
+      queue.shift();
+      queue.shift();
+      if(queue.length < 2) {
+        getMoreSongs();
+      }
+    }
+    player.removeTrack(0);
+    current_track += 1;
+    player.play();
+    filename = player.tracks[0].split('/');
 
-  function chooseNextSong() {
+    $('#player .song-title').html(filenames[filename[filename.length-1]].song);
+    $('#player .song-show').html(filenames[filename[filename.length-1]].show);
+  }
+
+  function getMoreSongs() {
 
     if(mode == "shuffle") {
       $.get('/songs/shuffle', function(e) {
 
       });
-      song=songs.shift();
-      console.log(song);
-      play(song.show_id,song.filename);
     }
     else if(mode == "radio") {
-      $.get('/songs/radio');
+      $.get('/songs/radio', function(e) {
+
+      });
     }
     else if(mode == "playlist"){
       current_track += 1;
@@ -230,10 +286,43 @@
       nextPlaylistSong();
     }
     else if(mode == "show"){
-      current_track += 1;
-      nextShowSong();
+      show = show.next();
+
+      if(!show.hasClass('show')) {
+        mode = 'shuffle';
+        $.get('/shows/load_random/');
+
+      }
+      else {
+        current_track=0;
+        loadShowIntoPlayer();
+      }
     }
 
+  }
+
+  function loadShowIntoPlayer() {
+    tracks = [];
+    queue = [];
+    player.stop();
+    player.removeAllTracks();
+
+    $.each(show.find('.play-song'), function(i,val) {
+      if(i >= current_track) {
+        if(i < (current_track+2)) {
+          player.addTrack('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+        }
+        else {
+          queue.push('https://archive.org/download/'+$(this).attr('show_id')+'/'+$(this).attr('filename'));
+        }
+      }
+      if(i==current_track) {
+        $('#player .song-title').html($(this).attr('title'));
+        $('#player .song-show').html($(this).attr('show'));
+      }
+      filenames[$(this).attr('filename')] = {'show':$(this).attr('show'),'song':$(this).attr('title')};
+    });
+    player.play();
   }
 
   function nextShowSong() {
@@ -315,16 +404,7 @@
       $.get('/songs/load/'+song_id);
 
 
-      $('#player .play').hide();
-      $('#player .pause').show();
-      $('#show-list').removeClass('large-12 large-6');
-      $('#show-list').removeClass('medium-12 medium-6');
-      $('#show-list').addClass('large-6');
-      $('#show-list').addClass('medium-6');
 
-      $("html, body").animate({
-       scrollTop:0
-       },"fast");
 
 
   }
@@ -419,21 +499,6 @@
 
 
 
-  current_song.audio.addEventListener("timeupdate", function() {
-  var duration = parseInt( current_song.audio.duration ),
-  currentTime = parseInt( current_song.audio.currentTime ),
-  timeLeft = duration - currentTime,
-  s, m;
 
-
-  s = timeLeft % 60;
-  m = Math.floor( timeLeft / 60 ) % 60;
-
-  s = s < 10 ? "0"+s : s;
-  m = m < 10 ? "0"+m : m;
-
-  $('#player .song-time').html(m+":"+s);
-
-  }, false);
 
 

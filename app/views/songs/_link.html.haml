@@ -1,4 +1,4 @@
-.song-link.play-song{:track=>song.track_num,:filename=>song.filename, :title=>song.title, :song_id=>song.id, :show=>song.show.title, :show_id=>song.show.identifier}
+.song-link.play-song{:track=>song.track_num,:origin=>'link',:filename=>song.filename, :title=>song.title, :song_id=>song.id, :show=>song.show.title, :show_id=>song.show.identifier}
   .song-name
     =song.title
   .song-show-title

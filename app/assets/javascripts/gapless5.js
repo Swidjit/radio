@@ -525,7 +525,7 @@ this.dequeueNextLoad = function() {
 		loadingTrack = entry[0];
 		if (loadingTrack < sources.length)
 		{
-			//console.log("loading track " + loadingTrack + ": " + entry[1]);
+			console.log("loading track " + loadingTrack + ": " + entry[1]);
 			sources[loadingTrack].load(entry[1]);
 		}
 	}
