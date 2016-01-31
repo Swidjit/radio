@@ -1,0 +1,10 @@
+.row
+  #show-list.large-12.columns
+    %h4
+      =@band.name
+      =params[:year]
+    =render :partial=>'shows/band_show', :collection=> @shows, :as=>:show
+    =pageless(@total_pages, '/bands/'+params[:band_id]+'/shows/year/'+params[:year], '#show-list')
+
+  #song-col
+

@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   resources :shows, :only => [:index] do
     get 'load'
-    get 'load_shows'
+    get 'load_shows', :as => :load_shows
     collection do
       get 'load_random'
     end
