@@ -29,7 +29,7 @@
             =link_to 'Shows', shows_path, :remote=>:true, :class => 'slow-loading'
 
         -if user_signed_in?
-          %li=link_to current_user.username, user_path(current_user.username)
+          %li=link_to current_user.username,'/pages/dashboard', :remote=>:true,:class=>'slow-loading'
         -else
           %li
             %a{"data-reveal-id" => "login", :href => "#"} Login

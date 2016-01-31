@@ -1,12 +1,14 @@
-%input#search
+%h4 Search Songs & Bands
+%input#search{:autocomplete=>:off, :style=>'font-size: 1.2em; width:95%;margin-bottom: 10px;'}
 .row#search-results
   .large-6.columns
     #song-results
-      hey
+      .test
   .large-6.columns
     #band-results
-      hey
+      .test
 :javascript
+  $('input#search').focus();
   jQuery(function(){
       jQuery('input#search')
         .data('timeout', null)
