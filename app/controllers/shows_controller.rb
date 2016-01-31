@@ -9,14 +9,15 @@ class ShowsController < ApplicationController
     if request.xhr?
       if params.has_key?(:year)
         @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc)
-        @total_pages = (@shows.length / 15) + 1
+        @total_pages = (@shows.length / 20) + 1
         @band = Band.find(params[:band_id])
         shows = @shows.pluck(:id)
         if params.has_key?(:page)  && params[:page].to_i > 0
-          @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc).offset(offset).limit(10)
-          render :partial => @shows
+          offset = (params[:page].to_i-1) * 20
+          @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc).offset(offset).limit(20)
+          render :partial => 'shows/band_show', :collection => @shows, :as => :show
         else
-          @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc).limit(15)
+          @shows = Show.where(:band_id => params[:band_id],:year=> params[:year]).order(date: :asc).limit(20)
           render 'load_shows'
         end
 
