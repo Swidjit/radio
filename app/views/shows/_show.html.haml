@@ -1,15 +1,12 @@
 .show[show]
-  .show-title=show.title
+  .show-title{:style=>'line-height: .95em;'}
+    %span{:style=>'font-size: .85em;line-height: .9em;'}
+      #{show.band.name}
+    .show-dateplace{:style=>'color: #a82512;'}
 
-  .show-songs
-    -songs = show.songs
-    -songs.each do |song|
-      .song-listing
-        .song-track [#{song.track_num}]
-        .play-song.song-name{:origin => 'show',:track=>song.track_num,:filename=>song.filename, :song_id=>song.id,:title=>song.title,:show=>song.show.title, :show_id=>song.show.identifier}
-          =song.title
-          =song.length
-
+      #{show.title.split(' ').last}
+      %span{:style=>'font-size: .85em'}
+      @ #{show.title.split(' at ')[1].split(' on ')[0]}
   -if user_signed_in?
     #reactions
       =link_to show_reaction_path(show.id, :type => "like"),  :remote=>"true",:method => "post" do
@@ -24,6 +21,17 @@
         .share
           %i.fi-share
           .count=show.reactions.shared.size
+
+  .show-songs
+    -songs = show.songs
+    -songs.each do |song|
+      .song-listing
+        .song-track [#{song.track_num}]
+        .play-song.song-name{:origin => 'show',:track=>song.track_num,:filename=>song.filename, :song_id=>song.id,:title=>song.title,:show=>song.show.title, :show_id=>song.show.identifier}
+          =song.title
+          =song.length
+
+
 
 
 

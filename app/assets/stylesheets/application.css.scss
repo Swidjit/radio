@@ -305,14 +305,14 @@
   font-weight: 500;
   cursor:pointer;
 }
-.show-title:hover,.playlist-title:hover {
+.show-dateplace:hover,.playlist-title:hover {
   text-decoration: underline;
 
 }
-.show-title.expanded:hover:after,.playlist-title.expanded:hover:after {
+.show-dateplace.expanded:hover:after,.playlist-title.expanded:hover:after {
     content: '\25B2';
 }
-.show-title:hover:after,.playlist-title:hover:after {
+.show-dateplace:hover:after,.playlist-title:hover:after {
     content: '\25BC';
 }
 

@@ -3,4 +3,5 @@ $('#song-col').html('#{j render @song}');
 $( document ).on( 'click', '.expand-song', function () {
 $('#song-col').html('#{j render @song}');
 });
-
+$('#player .song-title').html('#{@song.title}');
+$('#player .song-show').html('#{@song.show.title}');

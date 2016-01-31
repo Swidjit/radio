@@ -1,0 +1,7 @@
+.song-link.play-song{:track=>song.track_num,:origin=>'link',:filename=>song.filename, :title=>song.title, :song_id=>song.id, :show=>song.show.title, :show_id=>song.show.identifier}
+
+  %div{:style=>'color: #a82512;'}
+
+    #{song.show.title.split(' ').last}
+    %span{:style=>'font-size: .85em'}
+    @ #{song.show.title.split(' at ')[1].split(' on ')[0]}

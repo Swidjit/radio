@@ -1,7 +1,14 @@
 .song[song]
   .show-link
+    =link_to '/bands/'+song.show.band.id.to_s+'/shows/year/'+song.show.year, :remote => :true do
+      %span{:style=>'font-size: .85em;line-height: .9em;'}
+        #{song.show.band.name}
     =link_to show_load_path(song.show), :remote=>:true do
-      %span=song.show.title
+      .span{:style=>'color: #a82512;'}
+
+        #{song.show.title.split(' ').last}
+        %span{:style=>'font-size: .85em'}
+        @ #{song.show.title.split(' at ')[1].split(' on ')[0]}
   %h4
     =link_to song.title, '/songs/group/'+song.song_group.title, :remote=>:true
 
@@ -45,4 +52,5 @@
     -if user_signed_in?
       = render :partial => 'comments/form', :locals => { :comment => @new_comment }
   #similar
-    =render :partial => 'songs/link', :collection => @similar, :as => :song
+    %h6 Other Versions
+    =render :partial => 'songs/short_link', :collection => @similar, :as => :song

@@ -371,7 +371,7 @@ this.onplay = null;
 this.onpause = null;
 this.onstop = null;
 this.onnext = null;
-
+this.ontransitioncomplete = null;
 this.onerror = null;
 this.onfinishedtrack = null;
 this.onfinishedall = null;
@@ -598,7 +598,8 @@ this.insertTrack = function (index, audioPath) {
 
 this.removeTrack = function (index) {
 	if (index < 0 || index >= sources.length) return;
-
+	console.log(index);
+	console.log(sources[index]);
 	var curSource = sources[index];
 	if (curSource.getState() == Gapless5State.Loading)
 	{
@@ -662,6 +663,10 @@ this.removeAllTracks = function () {
 	}
 };
 
+this.getTrack = function() {
+	return trackIndex;
+}
+
 this.gotoTrack = function (newIndex, bForcePlay) {
 	if (inCallback) return;
 
@@ -707,6 +712,8 @@ this.gotoTrack = function (newIndex, bForcePlay) {
 			sources[newIndex].play();
 		}
 		sources[oldIndex].stop(); // call this last
+		runCallback(that.ontransitioncomplete);
+
 
 	}
 	enableButton('prev', that.loop || (newIndex > 0));
@@ -914,6 +921,7 @@ var Init = function(elem_id, options, tickMS) {
 	player_html += '<span id="currentPosition' + that.id + '">00:00.00</span> | <span id="totalPosition' + that.id + '">' + LOAD_TEXT + '</span>';
 	player_html += ' | <span id="trackIndex' + that.id + '">1</span>/<span id="tracks' + that.id + '">1</span>';
 	player_html += '</div>';
+
 
 	player_html += '<div class="g5inside">';
 	if (typeof Audio == "undefined")
