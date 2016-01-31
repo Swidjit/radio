@@ -5,6 +5,7 @@
       %p.logo
         %i.fi-shield
         Crazy Dancing Guy
+
       %p.footer-links
         =link_to "About", pages_path("about")
         =link_to "How it Works", pages_path("how-it-works")
@@ -508,6 +509,12 @@
     $('#collect .song-id').val(id);
     $('#collect').foundation('reveal','open');
   });
+
+  $( document ).on( 'click', '.slow-loading', function () {
+    $('#content').html('<div class="gears"></div>');
+  });
+
+
 
 
 

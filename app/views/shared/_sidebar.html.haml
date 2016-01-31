@@ -2,10 +2,9 @@
   %hr
   .section
     -if user_signed_in?
-      =link_to 'Dashboard','/pages/dashboard', :remote=>:true
-    =link_to 'Popular','/pages/popular', :remote=>:true
-    =link_to 'Explore','/pages/explore', :remote=>:true
-    =link_to 'Discussion','/pages/discussion', :remote=>:true
+      =link_to 'Dashboard','/pages/dashboard', :remote=>:true,:class=>'slow-loading'
+    =link_to 'Popular','/pages/popular', :remote=>:true,:class=>'slow-loading'
+    =link_to 'Explore','/pages/explore', :remote=>:true,:class=>'slow-loading'
     =link_to 'Search','/pages/search', :remote=>:true
   %hr
   .section
@@ -16,5 +15,3 @@
         -years = years.uniq
         -for i in years
           =link_to i.to_s, '/bands/'+@band.id.to_s+'/shows/year/'+i.to_s, :remote => :true
-    .show-bands
-      show bands

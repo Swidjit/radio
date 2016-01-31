@@ -1,0 +1,15 @@
+.row{:style=>'margin-top: 8px;'}
+  #show-list.large-6.columns
+    %h4 Playlists
+    =render current_user.playlists
+    %h4 Favorite Songs
+    =render :partial=> 'songs/link', :collection => @favorite_songs, :as => :song
+    %h4 Favorite Shows
+    =render :partial=> 'shows/show', :collection => @favorite_shows, :as => :show
+
+
+  #song-col.large-6.columns
+    %h4 Recent Songs
+    =render :partial=> 'songs/link', :collection => @recent_songs, :as => :song
+    %h4 Recent Shows
+    =render :partial=> 'shows/show', :collection => @recent_shows, :as => :show

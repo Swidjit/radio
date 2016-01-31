@@ -201,6 +201,19 @@
   }
   color: #eee;
 }
+
+.gears {
+  background: image-url('gears.gif') 50% 50% no-repeat;
+  height: 100px;
+  width: 100px;
+  background-size: 75px;
+  margin: 50px auto;
+
+}
+
+#gapless5-block {
+  display:none;
+}
 .song-controls {
 
   display: inline-block;

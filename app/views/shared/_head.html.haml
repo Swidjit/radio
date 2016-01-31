@@ -18,15 +18,15 @@
         -if user_signed_in?
           %li.divider
           %li
-            =link_to 'Bands', bands_path, :remote=>:true, :class => 'show-bands'
+            =link_to 'Bands', '#', :remote=>:true, :class => 'show-bands'
 
           %li.divider
           %li
-            =link_to 'Songs', songs_path, :remote=>:true
+            =link_to 'Songs', songs_path, :remote=>:true, :class => 'slow-loading'
 
           %li.divider
           %li
-            =link_to 'Shows', shows_path, :remote=>:true
+            =link_to 'Shows', shows_path, :remote=>:true, :class => 'slow-loading'
 
         -if user_signed_in?
           %li=link_to current_user.username, user_path(current_user.username)
