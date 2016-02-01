@@ -24,12 +24,22 @@
               %i.fi-next
           .song-actions.right
             -if user_signed_in?
-              %i.fi-star.radio
-              %i.fi-like
-              %i.fi-heart
-              %i.fi-share
-              .collect{:'data-song-id'=>''}
-                %i.fi-folder
+              #player-reactions
+                =link_to song_reaction_path(1, :type => "like"),  :remote=>"true",:method => "post",:class=>'player-action' do
+                  .like
+                    %i.fi-like
+
+                =link_to song_reaction_path(1, :type => "love"),  :remote=>"true",:method => "post",:class=>'player-action' do
+                  .love
+                    %i.fi-heart
+
+                =link_to song_reaction_path(1, :type => "share"),  :remote=>"true",:method => "post",:class=>'player-action' do
+                  .share
+                    %i.fi-share
+
+                .collect{:'data-song-id'=>1,:style=> "cursor:pointer;margin-left: 10px; color: #274472;",:class=>'player-collect'}
+                  %i.fi-folder
+
     .large-2.columns{:style => 'background-color:#835B9F;height:60px;'}
       .play-controls.text-center
         %i.fi-shuffle.shuffle

@@ -5,3 +5,14 @@ $('#song-col').html('#{j render @song}');
 });
 $('#player .song-title').html('#{@song.title}');
 $('#player .song-show').html('#{@song.show.title}');
+
+$('.player-action').each(function(index) {
+query=$(this).attr('href').split('?')[1];
+$(this).attr('href','/songs/#{@song.id}/reaction?'+query);
+});
+$('.player-collect').each(function(index) {
+
+$(this).attr('data-song-id','#{@song.id}');
+});
+
+
